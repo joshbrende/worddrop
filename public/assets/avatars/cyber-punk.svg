@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a1a;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#0a0a0a;stop-opacity:0.9" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="200" height="200" fill="url(#bgGradient)" rx="100" ry="100"/>
+  
+  <!-- Face -->
+  <circle cx="100" cy="100" r="40" fill="#1a1a1a" stroke="#ff00aa" stroke-width="2" filter="url(#glow)"/>
+  
+  <!-- Eyes -->
+  <g transform="translate(80,90)">
+    <circle r="5" fill="#ff00aa" filter="url(#glow)">
+      <animate attributeName="r" values="5;0;5" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="fill-opacity" values="1;0.5;1" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <g transform="translate(120,90)">
+    <circle r="5" fill="#ff00aa" filter="url(#glow)">
+      <animate attributeName="r" values="5;0;5" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="fill-opacity" values="1;0.5;1" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  
+  <!-- Mouth -->
+  <path d="M80,110 Q100,120 120,110" 
+        fill="none" 
+        stroke="#ff00aa" 
+        stroke-width="2" 
+        filter="url(#glow)"/>
+  
+  <!-- Punk Mask -->
+  <path d="M60,60 C60,40 140,40 140,60 L140,80 C140,100 60,100 60,80 Z" 
+        fill="#1a1a1a" 
+        stroke="#ff00aa" 
+        stroke-width="2" 
+        filter="url(#glow)"/>
+  
+  <!-- Mohawk -->
+  <path d="M85,40 L100,20 L115,40" 
+        fill="none" 
+        stroke="#ff00aa" 
+        stroke-width="3" 
+        filter="url(#glow)">
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>
+  </path>
+  
+  <!-- Spikes -->
+  <path d="M70,120 L80,110 L90,120 M110,120 L120,110 L130,120" 
+        fill="none" 
+        stroke="#ff00aa" 
+        stroke-width="2" 
+        filter="url(#glow)"/>
+  
+  <!-- Sound Waves -->
+  <g opacity="0.5" filter="url(#glow)">
+    <path d="M40,100 Q60,90 40,80" stroke="#ff00aa" stroke-width="1.5">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="1.5s" repeatCount="indefinite"/>
+    </path>
+    <path d="M30,110 Q50,100 30,90" stroke="#ff00aa" stroke-width="1.5">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="1.7s" repeatCount="indefinite"/>
+    </path>
+    <path d="M160,100 Q140,90 160,80" stroke="#ff00aa" stroke-width="1.5">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="1.5s" repeatCount="indefinite"/>
+    </path>
+    <path d="M170,110 Q150,100 170,90" stroke="#ff00aa" stroke-width="1.5">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="1.7s" repeatCount="indefinite"/>
+    </path>
+  </g>
+</svg> 

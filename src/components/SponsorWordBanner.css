@@ -1,0 +1,75 @@
+.sponsor-word-banner {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  animation: sponsorWordSlideDown 0.5s ease-out;
+}
+
+@keyframes sponsorWordSlideDown {
+  from {
+    transform: translateX(-50%) translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+.sponsor-word-content {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.95) 0%, rgba(255, 165, 0, 0.95) 100%);
+  border: 3px solid #ff6b6b;
+  border-radius: 15px;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 5px 30px rgba(255, 215, 0, 0.6);
+  min-width: 300px;
+  animation: sponsorWordPulse 2s ease-in-out infinite;
+}
+
+@keyframes sponsorWordPulse {
+  0%, 100% {
+    box-shadow: 0 5px 30px rgba(255, 215, 0, 0.6);
+  }
+  50% {
+    box-shadow: 0 5px 40px rgba(255, 215, 0, 0.9);
+  }
+}
+
+.sponsor-word-icon {
+  font-size: 2rem;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
+}
+
+.sponsor-word-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.sponsor-word-label {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.sponsor-word-value {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5);
+}
+
+.sponsor-word-points {
+  font-size: 0.9rem;
+  color: #8b0000;
+  font-weight: bold;
+}

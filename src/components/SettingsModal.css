@@ -1,0 +1,313 @@
+/**
+ * SettingsModal Styles
+ * Cyberpunk-themed settings modal
+ */
+
+.settings-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.settings-modal {
+  background: linear-gradient(135deg, rgba(10, 14, 39, 0.95) 0%, rgba(26, 26, 46, 0.95) 100%);
+  border: 2px solid rgba(0, 217, 255, 0.3);
+  border-radius: 16px;
+  box-shadow: 
+    0 0 30px rgba(0, 217, 255, 0.3),
+    0 0 60px rgba(0, 217, 255, 0.1),
+    inset 0 0 20px rgba(0, 217, 255, 0.1);
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  overflow: hidden;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.settings-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  border-bottom: 1px solid rgba(0, 217, 255, 0.2);
+}
+
+.settings-modal-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #00d9ff;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: 
+    0 0 10px rgba(0, 217, 255, 0.8),
+    0 0 20px rgba(0, 217, 255, 0.4);
+  margin: 0;
+  font-family: 'Courier New', monospace;
+}
+
+.settings-modal-close {
+  background: transparent;
+  border: 1px solid rgba(0, 217, 255, 0.3);
+  color: #00d9ff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-family: 'Courier New', monospace;
+}
+
+.settings-modal-close:hover {
+  background: rgba(0, 217, 255, 0.1);
+  border-color: #00d9ff;
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.5);
+  transform: scale(1.1);
+}
+
+.settings-modal-close:active {
+  transform: scale(0.95);
+}
+
+.settings-modal-content {
+  padding: 32px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.settings-section {
+  margin-bottom: 24px;
+}
+
+.settings-section-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #00d9ff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0 0 20px 0;
+  font-family: 'Courier New', monospace;
+  text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+  border-bottom: 1px solid rgba(0, 217, 255, 0.2);
+  padding-bottom: 12px;
+}
+
+.settings-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: rgba(0, 217, 255, 0.05);
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  margin-bottom: 16px;
+}
+
+.settings-item:last-child {
+  margin-bottom: 0;
+}
+
+.settings-item:hover {
+  background: rgba(0, 217, 255, 0.1);
+  border-color: rgba(0, 217, 255, 0.4);
+}
+
+.settings-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.settings-label-text {
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.settings-label-description {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  font-family: 'Courier New', monospace;
+}
+
+.settings-control {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* Toggle Switch */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 217, 255, 0.2);
+  border: 2px solid rgba(0, 217, 255, 0.4);
+  border-radius: 30px;
+  transition: all 0.3s ease;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 3px;
+  bottom: 3px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background-color: rgba(0, 217, 255, 0.4);
+  border-color: #00d9ff;
+  box-shadow: 
+    0 0 15px rgba(0, 217, 255, 0.5),
+    inset 0 0 10px rgba(0, 217, 255, 0.2);
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+  transform: translateX(30px);
+  background-color: #00d9ff;
+  box-shadow: 
+    0 0 10px rgba(0, 217, 255, 0.8),
+    0 0 20px rgba(0, 217, 255, 0.4);
+}
+
+.toggle-label {
+  font-size: 16px;
+  font-weight: bold;
+  color: #00d9ff;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  min-width: 40px;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+}
+
+.settings-modal-footer {
+  padding: 24px 32px;
+  border-top: 1px solid rgba(0, 217, 255, 0.2);
+  display: flex;
+  justify-content: center;
+}
+
+.settings-button {
+  all: unset;
+  background: transparent;
+  border: 2px solid rgba(0, 217, 255, 0.4);
+  color: #00d9ff;
+  padding: 12px 32px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  cursor: pointer;
+  font-family: 'Courier New', monospace;
+  transition: all 0.2s ease;
+  text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+}
+
+.settings-button:hover {
+  background: rgba(0, 217, 255, 0.1);
+  border-color: #00d9ff;
+  box-shadow: 
+    0 0 20px rgba(0, 217, 255, 0.4),
+    inset 0 0 20px rgba(0, 217, 255, 0.1);
+  transform: scale(1.05);
+}
+
+.settings-button:active {
+  transform: scale(0.98);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .settings-modal {
+    width: 95%;
+    max-height: 85vh;
+  }
+
+  .settings-modal-header {
+    padding: 20px 24px;
+  }
+
+  .settings-modal-title {
+    font-size: 24px;
+  }
+
+  .settings-modal-content {
+    padding: 24px;
+  }
+
+  .settings-item {
+    padding: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .settings-control {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

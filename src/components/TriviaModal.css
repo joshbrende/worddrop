@@ -1,0 +1,461 @@
+/**
+ * TriviaModal - Cyberpunk themed sponsor trivia modal
+ */
+
+.trivia-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: fadeIn 0.3s ease;
+  font-family: 'Courier New', monospace;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.trivia-modal {
+  background: rgba(0, 0, 0, 0.95);
+  border: 3px solid hsl(180, 100%, 50%); /* Cyan border */
+  border-radius: 8px;
+  padding: 2.5rem;
+  max-width: 600px;
+  width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 
+    0 0 40px rgba(0, 255, 255, 0.6),
+    inset 0 0 40px rgba(0, 255, 255, 0.1);
+  animation: slideUp 0.3s ease-out;
+  position: relative;
+}
+
+.trivia-modal::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  background: linear-gradient(45deg, hsl(270, 100%, 50%), hsl(180, 100%, 50%), hsl(270, 100%, 50%));
+  background-size: 200% 200%;
+  z-index: -1;
+  border-radius: 8px;
+  opacity: 0.5;
+  animation: border-glow 3s linear infinite;
+}
+
+@keyframes border-glow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.trivia-sponsor-logo {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.trivia-sponsor-logo img {
+  max-width: 150px;
+  max-height: 80px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.5));
+}
+
+.trivia-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid hsl(180, 100%, 50%);
+  padding-bottom: 1rem;
+}
+
+.trivia-header h2 {
+  color: hsl(180, 100%, 50%); /* Cyan */
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0 0 0.5rem 0;
+  text-shadow: 
+    0 0 15px hsl(180, 100%, 50%),
+    0 0 25px rgba(0, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-family: 'Courier New', monospace;
+  animation: pulse-glow 2s infinite alternate;
+}
+
+@keyframes pulse-glow {
+  from { 
+    text-shadow: 0 0 10px hsl(180, 100%, 50%), 0 0 20px rgba(0, 255, 255, 0.5); 
+  }
+  to { 
+    text-shadow: 0 0 20px hsl(180, 100%, 70%), 0 0 30px rgba(0, 255, 255, 0.8); 
+  }
+}
+
+.trivia-sponsor-name {
+  color: hsl(60, 100%, 70%); /* Yellow */
+  font-size: 1rem;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: 'Courier New', monospace;
+}
+
+.trivia-content {
+  margin-bottom: 2rem;
+}
+
+.trivia-question {
+  background: rgba(0, 255, 255, 0.1); /* Cyan tint */
+  border: 2px solid hsl(180, 100%, 50%); /* Cyan border */
+  border-radius: 6px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.3),
+    inset 0 0 20px rgba(0, 255, 255, 0.1);
+}
+
+.trivia-question p {
+  color: #ffffff;
+  font-size: 1.2rem;
+  margin: 0;
+  line-height: 1.6;
+  font-family: 'Courier New', monospace;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+.trivia-hint {
+  color: hsl(60, 100%, 70%); /* Yellow */
+  font-size: 0.95rem;
+  margin-top: 1rem;
+  font-style: italic;
+  font-family: 'Courier New', monospace;
+  text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+}
+
+.trivia-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.trivia-option {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid hsl(270, 100%, 50%); /* Purple border */
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+  font-family: 'Courier New', monospace;
+  position: relative;
+  overflow: hidden;
+}
+
+.trivia-option::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.trivia-option:hover::before {
+  left: 100%;
+}
+
+.trivia-option:hover {
+  background: rgba(102, 51, 153, 0.3); /* Purple tint */
+  border-color: hsl(180, 100%, 50%); /* Cyan on hover */
+  transform: translateX(5px);
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.4),
+    inset 0 0 20px rgba(0, 255, 255, 0.1);
+}
+
+.trivia-option.selected {
+  background: rgba(0, 255, 255, 0.2); /* Cyan background */
+  border-color: hsl(60, 100%, 50%); /* Yellow border */
+  box-shadow: 
+    0 0 25px rgba(255, 255, 0, 0.6),
+    inset 0 0 25px rgba(255, 255, 0, 0.2);
+}
+
+.option-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(102, 51, 153, 0.5); /* Purple background */
+  border: 2px solid hsl(270, 100%, 50%);
+  border-radius: 50%;
+  font-weight: bold;
+  flex-shrink: 0;
+  color: hsl(180, 100%, 70%);
+  font-family: 'Courier New', monospace;
+  box-shadow: 
+    0 0 10px rgba(102, 51, 153, 0.8),
+    inset 0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+.trivia-option.selected .option-label {
+  background: hsl(60, 100%, 50%); /* Yellow */
+  border-color: hsl(60, 100%, 50%);
+  color: #000000;
+  box-shadow: 
+    0 0 15px rgba(255, 255, 0, 0.8),
+    inset 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.option-text {
+  flex: 1;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+.trivia-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.trivia-submit-btn,
+.trivia-skip-btn {
+  padding: 1rem 2.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-family: 'Courier New', monospace;
+  position: relative;
+  overflow: hidden;
+}
+
+.trivia-submit-btn {
+  background: linear-gradient(135deg, hsl(270, 100%, 50%) 0%, hsl(180, 100%, 50%) 100%); /* Purple to Cyan */
+  color: #000000;
+  box-shadow: 
+    0 0 20px rgba(102, 51, 153, 0.6),
+    inset 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+.trivia-submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+}
+
+.trivia-submit-btn:hover:not(:disabled)::before {
+  left: 100%;
+}
+
+.trivia-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 0 30px rgba(102, 51, 153, 0.9),
+    inset 0 0 30px rgba(0, 255, 255, 0.3);
+}
+
+.trivia-submit-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.trivia-submit-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.trivia-skip-btn {
+  background: rgba(0, 0, 0, 0.7);
+  color: hsl(180, 100%, 70%);
+  border: 2px solid hsl(180, 100%, 50%);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+.trivia-skip-btn:hover {
+  background: rgba(0, 255, 255, 0.1);
+  border-color: hsl(180, 100%, 70%);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+.trivia-result {
+  text-align: center;
+  padding: 2rem;
+  border-radius: 6px;
+  animation: resultPulse 0.5s ease-out;
+  font-family: 'Courier New', monospace;
+}
+
+@keyframes resultPulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.trivia-result.correct {
+  background: rgba(255, 255, 0, 0.1); /* Yellow tint */
+  border: 2px solid hsl(60, 100%, 50%); /* Yellow border */
+  box-shadow: 
+    0 0 30px rgba(255, 255, 0, 0.5),
+    inset 0 0 30px rgba(255, 255, 0, 0.2);
+}
+
+.trivia-result.incorrect {
+  background: rgba(255, 0, 0, 0.1); /* Red tint */
+  border: 2px solid hsl(0, 100%, 50%); /* Red border */
+  box-shadow: 
+    0 0 30px rgba(255, 0, 0, 0.5),
+    inset 0 0 30px rgba(255, 0, 0, 0.2);
+}
+
+.trivia-result-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+}
+
+.trivia-result-title {
+  color: #ffffff;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 
+    0 0 15px rgba(255, 255, 255, 0.8),
+    0 0 25px rgba(255, 255, 255, 0.5);
+}
+
+.trivia-result-message {
+  color: #ffffff;
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+  line-height: 1.6;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+.trivia-result strong {
+  color: hsl(180, 100%, 50%); /* Cyan */
+  font-size: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 
+    0 0 10px hsl(180, 100%, 50%),
+    0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+.trivia-points {
+  color: hsl(60, 100%, 70%); /* Yellow */
+  font-size: 1.6rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  text-shadow: 
+    0 0 10px rgba(255, 255, 0, 0.8),
+    0 0 20px rgba(255, 255, 0, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.trivia-footer {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1.5rem;
+  border-top: 2px solid hsl(180, 100%, 50%);
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Courier New', monospace;
+}
+
+.trivia-category,
+.trivia-difficulty {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+.trivia-category {
+  color: hsl(180, 100%, 70%);
+}
+
+.trivia-difficulty {
+  color: hsl(60, 100%, 70%);
+}
+
+/* Scrollbar styling for cyberpunk theme */
+.trivia-modal::-webkit-scrollbar {
+  width: 8px;
+}
+
+.trivia-modal::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+}
+
+.trivia-modal::-webkit-scrollbar-thumb {
+  background: hsl(180, 100%, 50%);
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.trivia-modal::-webkit-scrollbar-thumb:hover {
+  background: hsl(180, 100%, 70%);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+}

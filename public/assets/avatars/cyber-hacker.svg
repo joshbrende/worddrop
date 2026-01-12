@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cyber-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ffff;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#0066ff;stop-opacity:0.3"/>
+    </linearGradient>
+  </defs>
+  <circle cx="100" cy="100" r="90" fill="url(#cyber-gradient)" stroke="#00ffff" stroke-width="2"/>
+  <path d="M100 50 L140 90 L100 130 L60 90 Z" fill="#00ffff" fill-opacity="0.2" stroke="#00ffff" stroke-width="2"/>
+  <circle cx="100" cy="90" r="25" fill="none" stroke="#00ffff" stroke-width="2"/>
+  <path d="M85 120 Q100 140 115 120" fill="none" stroke="#00ffff" stroke-width="2"/>
+  <line x1="70" y1="70" x2="85" y2="85" stroke="#00ffff" stroke-width="2"/>
+  <line x1="130" y1="70" x2="115" y2="85" stroke="#00ffff" stroke-width="2"/>
+  <circle cx="100" cy="90" r="5" fill="#00ffff"/>
+</svg> 

@@ -1,0 +1,94 @@
+.word-of-day-banner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10001;
+  animation: wordOfDaySlideIn 0.5s ease-out;
+}
+
+@keyframes wordOfDaySlideIn {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.word-of-day-content {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  border: 3px solid #ff6b6b;
+  border-radius: 20px;
+  padding: 2rem 3rem;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(255, 215, 0, 0.6);
+  min-width: 400px;
+  animation: wordOfDayPulse 2s ease-in-out infinite;
+}
+
+@keyframes wordOfDayPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 10px 40px rgba(255, 215, 0, 0.6);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 15px 50px rgba(255, 215, 0, 0.8);
+  }
+}
+
+.word-of-day-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: wordOfDaySpin 2s linear infinite;
+}
+
+@keyframes wordOfDaySpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.word-of-day-title {
+  color: #1a1a2e;
+  font-size: 2rem;
+  margin: 0 0 1rem 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  font-weight: bold;
+}
+
+.word-of-day-word {
+  color: #ff6b6b;
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 1rem 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: 0.2em;
+}
+
+.word-of-day-question {
+  color: #1a1a2e;
+  font-size: 1.2rem;
+  margin: 1rem 0;
+  font-style: italic;
+}
+
+.word-of-day-bonus {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(255, 107, 107, 0.2);
+  border-radius: 10px;
+}
+
+.bonus-label {
+  color: #1a1a2e;
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}

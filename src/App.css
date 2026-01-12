@@ -1,0 +1,53 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --cyberpunk-cyan: #00d9ff;
+  --cyberpunk-pink: #ff006e;
+  --cyberpunk-purple: #b300ff;
+  --bg-primary: #0a0e27;
+  --bg-secondary: #0d1117;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--bg-primary);
+  color: var(--cyberpunk-cyan);
+  overflow-x: hidden;
+}
+
+.app {
+  min-height: 100vh;
+  width: 100vw;
+  position: relative;
+  overflow: hidden;
+}
+
+
+.game-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  font-size: 1.25rem;
+  color: var(--cyberpunk-cyan);
+}
+
+.game-loading p {
+  opacity: 0.8;
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

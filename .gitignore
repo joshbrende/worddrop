@@ -1,0 +1,73 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies
+node_modules
+vendor
+
+# Build outputs
+dist
+dist-ssr
+build
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Environment variables
+.env
+.env.local
+.env.production.local
+.env.development.local
+.env.testing
+
+# Laravel specific
+worddrop-backend/storage/*.key
+worddrop-backend/storage/logs/*
+worddrop-backend/storage/framework/cache/*
+worddrop-backend/storage/framework/sessions/*
+worddrop-backend/storage/framework/views/*
+worddrop-backend/bootstrap/cache/*
+!worddrop-backend/storage/logs/.gitignore
+!worddrop-backend/storage/framework/.gitignore
+!worddrop-backend/storage/framework/cache/.gitignore
+!worddrop-backend/storage/framework/cache/data/.gitignore
+!worddrop-backend/storage/framework/sessions/.gitignore
+!worddrop-backend/storage/framework/views/.gitignore
+!worddrop-backend/storage/framework/testing/.gitignore
+!worddrop-backend/storage/app/.gitignore
+!worddrop-backend/storage/app/public/.gitignore
+!worddrop-backend/storage/app/private/.gitignore
+!worddrop-backend/bootstrap/cache/.gitignore
+worddrop-backend/.phpunit.result.cache
+worddrop-backend/public/hot
+worddrop-backend/public/storage
+
+# Database
+*.sqlite
+*.sqlite3
+*.db
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup

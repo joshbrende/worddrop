@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a1a;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#0a0a0a;stop-opacity:0.9" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="200" height="200" fill="url(#bgGradient)" rx="100" ry="100"/>
+  
+  <!-- Face -->
+  <circle cx="100" cy="100" r="40" fill="#1a1a1a" stroke="#ffaa00" stroke-width="2" filter="url(#glow)"/>
+  
+  <!-- Eyes -->
+  <g transform="translate(80,90)">
+    <circle r="5" fill="#ffaa00" filter="url(#glow)">
+      <animate attributeName="r" values="5;0;5" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="fill-opacity" values="1;0.5;1" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <g transform="translate(120,90)">
+    <circle r="5" fill="#ffaa00" filter="url(#glow)">
+      <animate attributeName="r" values="5;0;5" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="fill-opacity" values="1;0.5;1" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  
+  <!-- Mouth -->
+  <path d="M80,110 Q100,120 120,110" 
+        fill="none" 
+        stroke="#ffaa00" 
+        stroke-width="2" 
+        filter="url(#glow)"/>
+  
+  <!-- Agent Mask -->
+  <path d="M60,60 C60,40 140,40 140,60 L140,80 C140,100 60,100 60,80 Z" 
+        fill="#1a1a1a" 
+        stroke="#ffaa00" 
+        stroke-width="2" 
+        filter="url(#glow)"/>
+  
+  <!-- Visor -->
+  <path d="M75,70 L125,70" 
+        stroke="#ffaa00" 
+        stroke-width="2" 
+        filter="url(#glow)">
+    <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>
+  </path>
+  
+  <!-- Data Stream -->
+  <path d="M40,120 L160,120 M40,130 L160,130 M40,140 L160,140" 
+        stroke="#ffaa00" 
+        stroke-width="1.5" 
+        stroke-dasharray="5,5" 
+        opacity="0.7"
+        filter="url(#glow)">
+    <animate attributeName="stroke-dashoffset" values="0;20" dur="2s" repeatCount="indefinite"/>
+  </path>
+  
+  <!-- Communication Signal -->
+  <path d="M60,50 Q100,30 140,50" 
+        fill="none" 
+        stroke="#ffaa00" 
+        stroke-width="1.5" 
+        opacity="0.5"
+        filter="url(#glow)">
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="3s" repeatCount="indefinite"/>
+  </path>
+</svg> 

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a1a;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#0a0a0a;stop-opacity:0.9" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="200" height="200" fill="url(#bgGradient)" rx="100" ry="100"/>
+  
+  <!-- Face -->
+  <circle cx="100" cy="100" r="40" fill="#1a1a1a" stroke="#00ff66" stroke-width="2" filter="url(#glow)"/>
+  
+  <!-- Eyes -->
+  <g transform="translate(80,90)">
+    <circle r="5" fill="#00ff66" filter="url(#glow)">
+      <animate attributeName="r" values="5;0;5" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="fill-opacity" values="1;0.5;1" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <g transform="translate(120,90)">
+    <circle r="5" fill="#00ff66" filter="url(#glow)">
+      <animate attributeName="r" values="5;0;5" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="fill-opacity" values="1;0.5;1" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  
+  <!-- Mouth -->
+  <path d="M80,110 Q100,120 120,110" 
+        fill="none" 
+        stroke="#00ff66" 
+        stroke-width="2" 
+        filter="url(#glow)"/>
+  
+  <!-- Ninja Mask -->
+  <path d="M60,60 C60,40 140,40 140,60 L140,80 C140,100 60,100 60,80 Z" 
+        fill="#1a1a1a" 
+        stroke="#00ff66" 
+        stroke-width="2" 
+        filter="url(#glow)"/>
+  
+  <!-- Shuriken -->
+  <g>
+    <path d="M100,50 L110,35 L100,20 L90,35 Z 
+             M70,50 L85,60 L100,50 L85,40 Z
+             M100,80 L90,65 L100,50 L110,65 Z
+             M130,50 L115,40 L100,50 L115,60 Z" 
+          fill="#1a1a1a" 
+          stroke="#00ff66" 
+          stroke-width="2" 
+          filter="url(#glow)">
+      <animateTransform 
+        attributeName="transform" 
+        type="rotate" 
+        from="0 100 50" 
+        to="360 100 50" 
+        dur="3s" 
+        repeatCount="indefinite"/>
+    </path>
+  </g>
+  
+  <!-- Shadow Effect -->
+  <path d="M60,140 C80,150 120,150 140,140" 
+        fill="none" 
+        stroke="#00ff66" 
+        stroke-width="1.5" 
+        stroke-dasharray="5,3" 
+        opacity="0.7"
+        filter="url(#glow)">
+    <animate attributeName="stroke-dashoffset" values="0;16" dur="2s" repeatCount="indefinite"/>
+  </path>
+</svg> 

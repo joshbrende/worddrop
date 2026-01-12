@@ -1,0 +1,314 @@
+.game-board-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 3px;
+  padding: 4px;
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+  position: relative;
+  background: var(--theme-background, #333);
+  color: var(--theme-primary, #00d9ff);
+  font-family: 'Courier New', monospace;
+  z-index: 1;
+}
+
+/* Canvas Animated Background */
+.large-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #333;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center center;
+  z-index: 0;
+}
+
+#large-header {
+  background-image: url('/assets/bg.jpg');
+}
+
+.demo-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Ensure game content is above canvas animation */
+.game-info,
+.game-board {
+  position: relative;
+  z-index: 2;
+}
+
+.game-info {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+  text-shadow: 0 0 10px var(--theme-primary, rgba(0, 217, 255, 0.8));
+  color: var(--theme-text, #ffffff);
+  width: 100%;
+  max-width: min(90vw, 400px);
+  padding: 1px 0;
+  flex-wrap: wrap;
+}
+
+.next-letter {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  background: var(--theme-surface, rgba(0, 217, 255, 0.1));
+  border: 1px solid var(--theme-primary, rgba(0, 217, 255, 0.3));
+  border-radius: 3px;
+}
+
+.next-label {
+  font-size: 10px;
+  opacity: 0.8;
+}
+
+.next-letter-value {
+  font-size: 16px;
+  color: var(--theme-primary, #00d9ff);
+  text-shadow: 0 0 10px var(--theme-primary, rgba(0, 217, 255, 1));
+  min-width: 20px;
+  text-align: center;
+}
+
+.paused-indicator,
+.game-over-indicator {
+  color: #ff006e;
+  text-shadow: 0 0 10px rgba(255, 0, 110, 0.8);
+  animation: pulse 1s ease-in-out infinite;
+}
+
+/* Persistent combo indicator in game-info (different from ScorePopup combo) */
+.game-info .combo-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  background: rgba(255, 102, 0, 0.15);
+  border: 1px solid rgba(255, 102, 0, 0.4);
+  border-radius: 3px;
+  animation: comboInfoGlow 2s ease-in-out infinite;
+}
+
+.game-info .combo-indicator > .combo-label {
+  font-size: 10px;
+  opacity: 0.9;
+  color: #ff8800;
+}
+
+.game-info .combo-indicator > .combo-value {
+  font-size: 14px;
+  font-weight: 900;
+  color: #ff6600;
+  text-shadow: 
+    0 0 8px rgba(255, 102, 0, 0.9),
+    0 0 12px rgba(255, 102, 0, 0.6);
+}
+
+@keyframes comboInfoGlow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(255, 102, 0, 0.3);
+    border-color: rgba(255, 102, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(255, 102, 0, 0.7), 0 0 25px rgba(255, 102, 0, 0.4);
+    border-color: rgba(255, 102, 0, 0.8);
+  }
+}
+
+.game-board {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 4px;
+  border: 2px solid var(--theme-primary, rgba(0, 217, 255, 0.5));
+  border-radius: 6px;
+  width: min(90vw, 380px);
+  max-width: 380px;
+  position: relative;
+  overflow: visible; /* Allow score popups to overflow */
+  margin: 0 auto; /* Perfect horizontal centering */
+}
+
+.game-board-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(12, 1fr);
+  gap: 2px;
+  aspect-ratio: 8 / 12;
+  min-height: 0;
+  max-width: 100%;
+}
+
+.board-row {
+  display: contents;
+}
+
+.score,
+.level {
+  padding: 3px 8px;
+  background: var(--theme-surface, rgba(0, 217, 255, 0.1));
+  border: 1px solid var(--theme-primary, rgba(0, 217, 255, 0.3));
+  border-radius: 3px;
+  font-size: 12px;
+  color: var(--theme-text, #ffffff);
+}
+
+
+/* Power-ups container wrapper */
+.power-ups-container-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: min(90vw, 450px);
+  padding: 0 2px;
+  position: relative;
+  z-index: 100;
+}
+
+.pause-button-top {
+  background: var(--theme-surface, rgba(0, 217, 255, 0.15));
+  border: 1.5px solid var(--theme-primary, rgba(0, 217, 255, 0.5));
+  border-radius: 4px;
+  color: var(--theme-primary, #00d9ff);
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Courier New', monospace;
+  position: relative;
+  text-shadow: 0 0 8px var(--theme-primary, rgba(0, 217, 255, 0.8));
+  box-shadow: 0 0 6px var(--theme-primary, rgba(0, 217, 255, 0.2));
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.pause-button-top:hover {
+  background: var(--theme-surface, rgba(0, 217, 255, 0.3));
+  border-color: var(--theme-primary, rgba(0, 217, 255, 0.8));
+  box-shadow: 0 0 15px var(--theme-primary, rgba(0, 217, 255, 0.5));
+  transform: scale(1.05);
+}
+
+.pause-button-top:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 8px var(--theme-primary, rgba(0, 217, 255, 0.3));
+}
+
+.pause-button-top span {
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* Game Controls - At bottom of grid */
+.game-board .game-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid var(--theme-primary, rgba(0, 217, 255, 0.2));
+}
+
+.control-button {
+  background: var(--theme-surface, rgba(0, 217, 255, 0.15));
+  border: 1.5px solid var(--theme-primary, rgba(0, 217, 255, 0.5));
+  border-radius: 4px;
+  color: var(--theme-primary, #00d9ff);
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Courier New', monospace;
+  position: relative;
+  text-shadow: 0 0 8px var(--theme-primary, rgba(0, 217, 255, 0.8));
+  box-shadow: 0 0 6px var(--theme-primary, rgba(0, 217, 255, 0.2));
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.control-button:not(:disabled):hover {
+  background: var(--theme-surface, rgba(0, 217, 255, 0.3));
+  border-color: var(--theme-primary, rgba(0, 217, 255, 0.8));
+  box-shadow: 0 0 15px var(--theme-primary, rgba(0, 217, 255, 0.5));
+  transform: scale(1.05);
+}
+
+.control-button:not(:disabled):active {
+  transform: scale(0.95);
+  box-shadow: 0 0 8px rgba(0, 217, 255, 0.3);
+}
+
+.control-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+}
+
+.control-button-drop {
+  width: 50px;
+  height: 50px;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.control-button-drop span:first-child {
+  font-size: 20px;
+}
+
+.control-label {
+  font-size: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.9;
+}
+
+.control-button-left,
+.control-button-right {
+  width: 38px;
+  height: 38px;
+}
+
+.control-button-left span,
+.control-button-right span {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.game-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: 24px;
+  color: #00d9ff;
+}

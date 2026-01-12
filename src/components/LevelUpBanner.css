@@ -1,0 +1,535 @@
+/**
+ * LevelUpBanner Styles
+ * Cyberpunk-themed level-up animations with level-specific effects
+ */
+
+.level-up-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Screen Effects */
+.screen-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Basic Flash */
+.screen-effect-flash {
+  animation: flash 0.2s ease-out;
+}
+
+@keyframes flash {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.6; }
+}
+
+/* Lens Flare Flash */
+.screen-effect-flash-lens {
+  animation: flashLens 0.3s ease-out;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
+}
+
+@keyframes flashLens {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 0.8; transform: scale(1.2); }
+}
+
+/* Blur Flash */
+.screen-effect-flash-blur {
+  animation: flashBlur 0.3s ease-out;
+  filter: blur(20px);
+}
+
+@keyframes flashBlur {
+  0%, 100% { opacity: 0; filter: blur(0px); }
+  50% { opacity: 0.7; filter: blur(20px); }
+}
+
+/* Bloom Flash */
+.screen-effect-flash-bloom {
+  animation: flashBloom 0.4s ease-out;
+  filter: brightness(2) blur(15px);
+}
+
+@keyframes flashBloom {
+  0%, 100% { opacity: 0; filter: brightness(1) blur(0px); }
+  50% { opacity: 0.9; filter: brightness(2.5) blur(20px); }
+}
+
+/* Heat Wave Flash */
+.screen-effect-flash-heat {
+  animation: flashHeat 0.4s ease-out;
+  background: linear-gradient(180deg, rgba(255, 100, 0, 0.8) 0%, rgba(255, 200, 0, 0.6) 100%);
+  filter: blur(10px);
+}
+
+@keyframes flashHeat {
+  0%, 100% { opacity: 0; transform: translateY(-20px); }
+  50% { opacity: 0.8; transform: translateY(0); }
+}
+
+/* Wave Flash */
+.screen-effect-flash-waves {
+  animation: flashWaves 0.5s ease-out;
+  background: radial-gradient(ellipse at center, rgba(0, 255, 255, 0.6) 0%, transparent 60%);
+  filter: blur(15px);
+}
+
+@keyframes flashWaves {
+  0%, 100% { opacity: 0; transform: scale(0.8); }
+  50% { opacity: 0.7; transform: scale(1.3); }
+}
+
+/* Shake Flash */
+.screen-effect-flash-shake {
+  animation: flashShake 0.6s ease-out;
+}
+
+@keyframes flashShake {
+  0%, 100% { opacity: 0; transform: translateX(0) scale(1); }
+  10%, 30%, 50%, 70%, 90% { opacity: 0.8; transform: translateX(-10px) scale(1.05); }
+  20%, 40%, 60%, 80% { opacity: 0.8; transform: translateX(10px) scale(1.05); }
+}
+
+/* Main Banner */
+.level-up-banner {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  color: var(--theme-primary, #00d9ff);
+  animation: bannerReveal 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes bannerReveal {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-10deg);
+    filter: blur(20px);
+  }
+  50% {
+    transform: scale(1.1) rotate(5deg);
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    filter: blur(0px);
+  }
+}
+
+/* Level Text */
+.level-text-container {
+  margin-bottom: 20px;
+}
+
+.level-label {
+  font-size: clamp(24px, 5vw, 48px);
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  text-shadow: 
+    0 0 20px var(--theme-primary, #00d9ff),
+    0 0 40px var(--theme-primary, #00d9ff),
+    0 0 60px var(--theme-primary, #00d9ff);
+  animation: labelPulse 2s ease-in-out infinite;
+  margin-bottom: 10px;
+}
+
+@keyframes labelPulse {
+  0%, 100% { 
+    text-shadow: 
+      0 0 20px var(--theme-primary, #00d9ff),
+      0 0 40px var(--theme-primary, #00d9ff);
+  }
+  50% { 
+    text-shadow: 
+      0 0 30px var(--theme-primary, #00d9ff),
+      0 0 60px var(--theme-primary, #00d9ff),
+      0 0 90px var(--theme-primary, #00d9ff);
+  }
+}
+
+.level-number {
+  font-size: clamp(48px, 10vw, 120px);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 8px;
+  text-shadow: 
+    0 0 30px var(--theme-primary, #00d9ff),
+    0 0 60px var(--theme-primary, #00d9ff),
+    0 0 90px var(--theme-primary, #00d9ff),
+    4px 4px 8px rgba(0, 0, 0, 0.8);
+  background: linear-gradient(135deg, var(--theme-primary, #00d9ff), var(--theme-accent, #00ffff));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: numberGlow 1.5s ease-in-out infinite;
+}
+
+@keyframes numberGlow {
+  0%, 100% { 
+    filter: brightness(1);
+    transform: scale(1);
+  }
+  50% { 
+    filter: brightness(1.3);
+    transform: scale(1.05);
+  }
+}
+
+/* Points Display */
+.points-display {
+  font-size: clamp(20px, 4vw, 36px);
+  font-weight: 600;
+  color: var(--theme-success, #00ff00);
+  text-shadow: 
+    0 0 15px var(--theme-success, #00ff00),
+    0 0 30px var(--theme-success, #00ff00);
+  margin: 15px 0;
+  animation: pointsCountUp 1s ease-out;
+}
+
+@keyframes pointsCountUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Theme Name */
+.theme-name {
+  font-size: clamp(16px, 3vw, 28px);
+  font-weight: 500;
+  color: var(--theme-secondary, #0066cc);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin-top: 10px;
+  opacity: 0.9;
+  animation: themeFadeIn 1s ease-out 0.3s forwards;
+}
+
+@keyframes themeFadeIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 0.9; transform: translateY(0); }
+}
+
+/* Achievement Badge */
+.achievement-badge {
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  animation: badgeDrop 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes badgeDrop {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-100px) scale(0.5);
+  }
+  60% {
+    transform: translateX(-50%) translateY(0) scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+.badge-icon {
+  font-size: 48px;
+  animation: badgeSpin 2s linear infinite;
+}
+
+@keyframes badgeSpin {
+  0%, 100% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(-10deg) scale(1.1); }
+  75% { transform: rotate(10deg) scale(1.1); }
+}
+
+.badge-text {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--theme-accent, #00ffff);
+  text-shadow: 
+    0 0 10px var(--theme-accent, #00ffff),
+    0 0 20px var(--theme-accent, #00ffff);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Particles */
+.particles-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--particle-color, #00d9ff);
+  border-radius: 50%;
+  opacity: 0;
+  box-shadow: 0 0 10px var(--particle-color, #00d9ff);
+  animation: particleFloat 3s ease-out var(--animation-delay, 0ms) forwards;
+}
+
+@keyframes particleFloat {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0);
+  }
+  10% {
+    opacity: 1;
+    transform: translate(
+      calc(var(--particle-index, 0) * 10px - 50px),
+      calc(var(--particle-index, 0) * -5px - 50px)
+    ) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(
+      calc(var(--particle-index, 0) * 50px - 200px),
+      calc(var(--particle-index, 0) * -100px + 300px)
+    ) scale(0.5);
+  }
+}
+
+/* Lightning Effects */
+.lightning-effects {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.lightning {
+  position: absolute;
+  width: 3px;
+  height: 100px;
+  background: linear-gradient(to bottom, transparent, var(--theme-primary, #00ff00), transparent);
+  opacity: 0;
+  box-shadow: 0 0 20px var(--theme-primary, #00ff00);
+  animation: lightningStrike 0.3s ease-out forwards;
+}
+
+.lightning-0 { left: 20%; top: 10%; animation-delay: 0.2s; }
+.lightning-1 { left: 40%; top: 15%; animation-delay: 0.4s; transform: rotate(15deg); }
+.lightning-2 { left: 60%; top: 12%; animation-delay: 0.6s; transform: rotate(-10deg); }
+.lightning-3 { left: 80%; top: 18%; animation-delay: 0.8s; transform: rotate(20deg); }
+
+@keyframes lightningStrike {
+  0% { opacity: 0; height: 0; }
+  50% { opacity: 1; height: 150px; }
+  100% { opacity: 0; height: 200px; }
+}
+
+/* Energy Orbs */
+.energy-orbs {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  pointer-events: none;
+}
+
+.orb {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--theme-primary, #800080), transparent);
+  box-shadow: 0 0 30px var(--theme-primary, #800080);
+  opacity: 0;
+  animation: orbOrbit 4s linear infinite;
+}
+
+.orb-0 { animation-delay: 0s; }
+.orb-1 { animation-delay: 0.67s; }
+.orb-2 { animation-delay: 1.33s; }
+.orb-3 { animation-delay: 2s; }
+.orb-4 { animation-delay: 2.67s; }
+.orb-5 { animation-delay: 3.33s; }
+
+@keyframes orbOrbit {
+  0% {
+    opacity: 1;
+    transform: rotate(0deg) translateX(200px) rotate(0deg);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(360deg) translateX(200px) rotate(-360deg);
+  }
+}
+
+/* Fire Effects */
+.fire-effects {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 200px;
+  pointer-events: none;
+}
+
+.flame {
+  position: absolute;
+  bottom: 0;
+  width: 40px;
+  height: 80px;
+  background: linear-gradient(to top, var(--theme-primary, #ff6600), var(--theme-accent, #ff8833), transparent);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  opacity: 0;
+  animation: flameFlicker 1.5s ease-in-out infinite;
+  box-shadow: 0 0 20px var(--theme-primary, #ff6600);
+}
+
+.flame-0 { left: 20%; animation-delay: 0s; }
+.flame-1 { left: 30%; animation-delay: 0.2s; }
+.flame-2 { left: 40%; animation-delay: 0.4s; }
+.flame-3 { left: 50%; animation-delay: 0.6s; }
+.flame-4 { left: 60%; animation-delay: 0.8s; }
+.flame-5 { left: 70%; animation-delay: 1s; }
+.flame-6 { left: 35%; animation-delay: 0.1s; }
+.flame-7 { left: 65%; animation-delay: 0.3s; }
+
+@keyframes flameFlicker {
+  0%, 100% { 
+    opacity: 0.8; 
+    transform: scaleY(1) scaleX(1);
+    filter: blur(2px);
+  }
+  25% { 
+    opacity: 1; 
+    transform: scaleY(1.2) scaleX(0.9);
+    filter: blur(1px);
+  }
+  50% { 
+    opacity: 0.9; 
+    transform: scaleY(0.9) scaleX(1.1);
+    filter: blur(3px);
+  }
+  75% { 
+    opacity: 1; 
+    transform: scaleY(1.1) scaleX(0.95);
+    filter: blur(1.5px);
+  }
+}
+
+/* Water Effects */
+.water-effects {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  pointer-events: none;
+}
+
+.ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border: 3px solid var(--theme-primary, #00ffff);
+  border-radius: 50%;
+  opacity: 0;
+  animation: rippleExpand 2s ease-out infinite;
+}
+
+.ripple-0 { animation-delay: 0s; }
+.ripple-1 { animation-delay: 0.67s; }
+.ripple-2 { animation-delay: 1.33s; }
+
+@keyframes rippleExpand {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    width: 600px;
+    height: 600px;
+    opacity: 0;
+  }
+}
+
+/* Shake Effect */
+.shake-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  animation: screenShake 0.1s ease-in-out infinite;
+}
+
+@keyframes screenShake {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-2px, 2px); }
+  50% { transform: translate(2px, -2px); }
+  75% { transform: translate(-2px, -2px); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .level-label {
+    font-size: 20px;
+    letter-spacing: 2px;
+  }
+
+  .level-number {
+    font-size: 48px;
+    letter-spacing: 4px;
+  }
+
+  .points-display {
+    font-size: 18px;
+  }
+
+  .theme-name {
+    font-size: 14px;
+  }
+
+  .particle {
+    width: 6px;
+    height: 6px;
+  }
+}

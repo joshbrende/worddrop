@@ -1,0 +1,325 @@
+/**
+ * PowerUps component styles
+ */
+
+.power-ups-container {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
+  margin: 0;
+  flex-wrap: wrap;
+  flex: 1;
+  position: relative;
+  z-index: 100;
+}
+
+.power-up-button {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(0, 217, 255, 0.5);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.4);
+  color: #00d9ff;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  transition: all 0.2s ease;
+  font-family: 'Courier New', monospace;
+  z-index: 100;
+}
+
+.power-up-button:hover:not(.disabled) {
+  background: rgba(0, 217, 255, 0.2);
+  border-color: rgba(0, 217, 255, 0.8);
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.5);
+}
+
+.power-up-button:active:not(.disabled) {
+  transform: scale(0.95);
+}
+
+.power-up-button.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  filter: grayscale(0.7);
+}
+
+.power-up-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.power-up-count {
+  font-size: 8px;
+  font-weight: bold;
+  color: #00d9ff;
+  text-shadow: 0 0 4px rgba(0, 217, 255, 0.8);
+}
+
+.power-up-button.disabled .power-up-count {
+  color: #666;
+  text-shadow: none;
+}
+
+.power-up-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.power-up-button.loading {
+  animation: pulse 1s infinite;
+  opacity: 0.7;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.power-up-count.watch-ad {
+  font-size: 12px;
+  animation: glow 2s infinite;
+}
+
+@keyframes glow {
+  0%, 100% {
+    text-shadow: 0 0 4px rgba(255, 215, 0, 0.8);
+  }
+  50% {
+    text-shadow: 0 0 10px rgba(255, 215, 0, 1), 0 0 20px rgba(255, 215, 0, 0.6);
+  }
+}
+
+.watch-ad-hint {
+  position: absolute;
+  top: 100%;
+  margin-top: 2px;
+  font-size: 7px;
+  color: #ffd700;
+  text-shadow: 0 0 4px rgba(255, 215, 0, 0.8);
+  white-space: nowrap;
+  font-family: 'Courier New', monospace;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+/* Power-up specific colors */
+.power-up-button.bomb {
+  border-color: rgba(255, 0, 0, 0.5);
+  color: #ff0000;
+}
+
+.power-up-button.bomb:hover:not(.disabled) {
+  background: rgba(255, 0, 0, 0.2);
+  border-color: rgba(255, 0, 0, 0.8);
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+}
+
+.power-up-button.lightning {
+  border: 3px solid #ffd700 !important;
+  color: #ffd700 !important;
+  background: rgba(255, 215, 0, 0.3) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: flex !important;
+  width: 40px !important;
+  height: 40px !important;
+  min-width: 40px !important;
+  min-height: 40px !important;
+  z-index: 1000 !important;
+  position: relative !important;
+}
+
+.power-up-button.lightning .power-up-icon {
+  color: #ffd700 !important;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 1) !important;
+  font-size: 20px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.power-up-button.lightning .power-up-count {
+  color: #ffd700 !important;
+  text-shadow: 0 0 6px rgba(255, 215, 0, 1) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.power-up-button.lightning:hover:not(.disabled) {
+  background: rgba(255, 215, 0, 0.5) !important;
+  border-color: #ffd700 !important;
+  box-shadow: 0 0 25px rgba(255, 215, 0, 1) !important;
+  transform: scale(1.1) !important;
+}
+
+.power-up-button.freeze {
+  border-color: rgba(0, 255, 255, 0.5);
+  color: #00ffff;
+}
+
+.power-up-button.freeze:hover:not(.disabled) {
+  background: rgba(0, 255, 255, 0.2);
+  border-color: rgba(0, 255, 255, 0.8);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+}
+
+.power-up-button.wind {
+  border-color: rgba(128, 128, 255, 0.5);
+  color: #8080ff;
+}
+
+.power-up-button.wind:hover:not(.disabled) {
+  background: rgba(128, 128, 255, 0.2);
+  border-color: rgba(128, 128, 255, 0.8);
+  box-shadow: 0 0 15px rgba(128, 128, 255, 0.5);
+}
+
+.power-up-button.blank {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+}
+
+.power-up-button.blank:hover:not(.disabled) {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+/* Letter Selector Modal */
+.letter-selector-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(4px);
+}
+
+.letter-selector-modal {
+  background: linear-gradient(180deg, rgba(10, 14, 39, 0.95) 0%, rgba(26, 26, 46, 0.95) 100%);
+  border: 2px solid rgba(0, 217, 255, 0.5);
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 90vw;
+  width: 400px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 0 30px rgba(0, 217, 255, 0.5);
+}
+
+.letter-selector-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.letter-selector-header h3 {
+  margin: 0;
+  color: #00d9ff;
+  font-family: 'Courier New', monospace;
+  font-size: 20px;
+  text-shadow: 0 0 10px rgba(0, 217, 255, 0.8);
+}
+
+.close-button {
+  background: transparent;
+  border: 1px solid rgba(255, 0, 110, 0.5);
+  color: #ff006e;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.close-button:hover {
+  background: rgba(255, 0, 110, 0.2);
+  border-color: rgba(255, 0, 110, 0.8);
+  transform: scale(1.1);
+}
+
+.letter-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+}
+
+.letter-button {
+  width: 100%;
+  aspect-ratio: 1;
+  border: 2px solid rgba(0, 217, 255, 0.5);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.4);
+  color: #00d9ff;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Courier New', monospace;
+  text-shadow: 0 0 6px rgba(0, 217, 255, 0.8);
+}
+
+.letter-button:hover {
+  background: rgba(0, 217, 255, 0.2);
+  border-color: rgba(0, 217, 255, 0.8);
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.5);
+}
+
+.letter-button:active {
+  transform: scale(0.95);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .letter-selector-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .power-up-button {
+    width: 48px;
+    height: 48px;
+  }
+
+  .power-up-icon {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 320px) {
+  .letter-selector-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .power-up-button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .power-up-icon {
+    font-size: 18px;
+  }
+}
