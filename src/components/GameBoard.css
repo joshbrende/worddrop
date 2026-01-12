@@ -107,26 +107,29 @@
   animation: comboInfoGlow 2s ease-in-out infinite;
 }
 
-.game-info .combo-indicator > .combo-label {
+.game-info .combo-indicator>.combo-label {
   font-size: 10px;
   opacity: 0.9;
   color: #ff8800;
 }
 
-.game-info .combo-indicator > .combo-value {
+.game-info .combo-indicator>.combo-value {
   font-size: 14px;
   font-weight: 900;
   color: #ff6600;
-  text-shadow: 
+  text-shadow:
     0 0 8px rgba(255, 102, 0, 0.9),
     0 0 12px rgba(255, 102, 0, 0.6);
 }
 
 @keyframes comboInfoGlow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 5px rgba(255, 102, 0, 0.3);
     border-color: rgba(255, 102, 0, 0.4);
   }
+
   50% {
     box-shadow: 0 0 15px rgba(255, 102, 0, 0.7), 0 0 25px rgba(255, 102, 0, 0.4);
     border-color: rgba(255, 102, 0, 0.8);
@@ -143,8 +146,10 @@
   width: min(90vw, 380px);
   max-width: 380px;
   position: relative;
-  overflow: visible; /* Allow score popups to overflow */
-  margin: 0 auto; /* Perfect horizontal centering */
+  overflow: visible;
+  /* Allow score popups to overflow */
+  margin: 0 auto;
+  /* Perfect horizontal centering */
 }
 
 .game-board-grid {
@@ -227,13 +232,51 @@
 
 /* Game Controls - At bottom of grid */
 .game-board .game-controls {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
   align-items: center;
-  justify-content: center;
   gap: 4px;
   margin-top: 4px;
   padding-top: 4px;
   border-top: 1px solid var(--theme-primary, rgba(0, 217, 255, 0.2));
+  width: 100%;
+}
+
+.controls-section-left {
+  /* Empty spacer */
+}
+
+.controls-section-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.controls-section-right {
+  display: flex;
+  justify-content: center;
+  /* Or flex-end if you want it purely right-aligned */
+  align-items: center;
+}
+
+.control-button-settings {
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+  border-radius: 50%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.control-button-settings span {
+  position: relative;
+  top: 0;
+  /* Reset previous optical fix */
+  line-height: 1;
 }
 
 .control-button {

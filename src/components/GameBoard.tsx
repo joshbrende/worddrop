@@ -184,13 +184,6 @@ export const GameBoard: React.FC<GameBoardProps> = ({ gameMode = 'normal', onRet
             <span className="next-letter-value">{gameState.nextLetter.letter}</span>
           </div>
         )}
-        <button
-          className="pause-button-top"
-          onClick={isPaused ? resume : pause}
-          title="Pause (Space/ESC)"
-        >
-          <span>{isPaused ? '▶' : '⏸'}</span>
-        </button>
         {isGameOver && <div className="game-over-indicator">GAME OVER</div>}
       </div>
 
@@ -274,55 +267,72 @@ export const GameBoard: React.FC<GameBoardProps> = ({ gameMode = 'normal', onRet
 
         {/* Game Controls - At the bottom of the grid - Pointer events for mobile hold support */}
         <div className="game-controls">
-          <button
-            className="control-button control-button-left"
-            onPointerDown={(e) => {
-              e.preventDefault(); // Prevent text selection/ghost clicks
-              handleControlStart(moveLeft, 150);
-            }}
-            onPointerUp={(e) => {
-              e.preventDefault();
-              handleControlEnd();
-            }}
-            onPointerLeave={handleControlEnd}
-            disabled={isPaused || isGameOver}
-            title="Move Left (←/A)"
-          >
-            <span>←</span>
-          </button>
-          <button
-            className="control-button control-button-drop"
-            onPointerDown={(e) => {
-              e.preventDefault();
-              handleControlStart(dropLetter, 100); // Faster drop
-            }}
-            onPointerUp={(e) => {
-              e.preventDefault();
-              handleControlEnd();
-            }}
-            onPointerLeave={handleControlEnd}
-            disabled={isPaused || isGameOver}
-            title="Drop (Space)"
-          >
-            <span>⬇</span>
-            <span className="control-label">DROP</span>
-          </button>
-          <button
-            className="control-button control-button-right"
-            onPointerDown={(e) => {
-              e.preventDefault();
-              handleControlStart(moveRight, 150);
-            }}
-            onPointerUp={(e) => {
-              e.preventDefault();
-              handleControlEnd();
-            }}
-            onPointerLeave={handleControlEnd}
-            disabled={isPaused || isGameOver}
-            title="Move Right (→/D)"
-          >
-            <span>→</span>
-          </button>
+          {/* Left Spacer (1 part) */}
+          <div className="controls-section-left"></div>
+
+          {/* Center Controls (3 parts) */}
+          <div className="controls-section-center">
+            <button
+              className="control-button control-button-left"
+              onPointerDown={(e) => {
+                e.preventDefault(); // Prevent text selection/ghost clicks
+                handleControlStart(moveLeft, 150);
+              }}
+              onPointerUp={(e) => {
+                e.preventDefault();
+                handleControlEnd();
+              }}
+              onPointerLeave={handleControlEnd}
+              disabled={isPaused || isGameOver}
+              title="Move Left (←/A)"
+            >
+              <span>←</span>
+            </button>
+            <button
+              className="control-button control-button-drop"
+              onPointerDown={(e) => {
+                e.preventDefault();
+                handleControlStart(dropLetter, 100); // Faster drop
+              }}
+              onPointerUp={(e) => {
+                e.preventDefault();
+                handleControlEnd();
+              }}
+              onPointerLeave={handleControlEnd}
+              disabled={isPaused || isGameOver}
+              title="Drop (Space)"
+            >
+              <span>⬇</span>
+              <span className="control-label">DROP</span>
+            </button>
+            <button
+              className="control-button control-button-right"
+              onPointerDown={(e) => {
+                e.preventDefault();
+                handleControlStart(moveRight, 150);
+              }}
+              onPointerUp={(e) => {
+                e.preventDefault();
+                handleControlEnd();
+              }}
+              onPointerLeave={handleControlEnd}
+              disabled={isPaused || isGameOver}
+              title="Move Right (→/D)"
+            >
+              <span>→</span>
+            </button>
+          </div>
+
+          {/* Right Action (1 part) */}
+          <div className="controls-section-right">
+            <button
+              className="control-button control-button-settings"
+              onClick={isPaused ? resume : pause}
+              title="Settings/Pause (P/ESC)"
+            >
+              <span>⚙️</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
