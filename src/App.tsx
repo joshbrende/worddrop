@@ -10,6 +10,7 @@ import { MenuScreen } from './components/MenuScreen';
 import { GameBoard } from './components/GameBoard';
 import dictionaryService from './services/DictionaryService';
 import soundService from './services/SoundService';
+import crazyGamesService from './services/CrazyGamesService';
 import { SOUND_MAPPINGS } from './constants/sounds';
 import './App.css';
 
@@ -22,9 +23,10 @@ export const App: React.FC = () => {
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [loadingMessage, setLoadingMessage] = useState('INITIALIZING SYSTEM');
 
-  // Initialize sound service early
+  // Initialize sound and CrazyGames service early
   useEffect(() => {
     soundService.initialize();
+    crazyGamesService.initialize();
   }, []);
 
   // Initialize dictionary service and simulate loading progress
@@ -52,7 +54,7 @@ export const App: React.FC = () => {
     // Don't wait for dictionary - it loads in background
     progressInterval = window.setInterval(() => {
       currentProgress += Math.random() * 10 + 3; // Random increment between 3-13%
-      
+
       if (currentProgress >= 100) {
         // Reach 100% and stop
         currentProgress = 100;
@@ -101,10 +103,15 @@ export const App: React.FC = () => {
   const handleStartGame = (mode?: 'normal' | 'word-of-day' | 'sponsor-trivia') => {
     setGameMode(mode || 'normal');
     setAppState('game');
+    crazyGamesService.gameplayStart();
   };
 
   const handleReturnToMenu = () => {
-    setAppState('menu');
+    crazyGamesService.gameplayStop();
+    // Show midgame ad when returning to menu (optional, good practice)
+    crazyGamesService.requestMidgameAd(() => {
+      setAppState('menu');
+    });
   };
 
   return (
