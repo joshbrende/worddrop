@@ -36,10 +36,10 @@ export const GameBoard: React.FC<GameBoardProps> = ({ gameMode = 'normal', onRet
     dropLetter,
     pause,
     resume,
-    reset,
+    // reset, // Unused
     usePowerUp,
     completeLevelUp,
-    handleTriviaAnswer,
+    // handleTriviaAnswer, // Unused
   } = useGameState({ gameMode });
 
   const isPaused = gameState?.isPaused ?? false;
@@ -135,7 +135,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({ gameMode = 'normal', onRet
   const showLevelUpBanner = gameState.isLevelingUp && gameState.levelUpData;
   const showWordOfDayBanner = gameState.foundWordOfTheDay && gameState.wordOfTheDay;
   const showTrivia = gameState.showTriviaModal && gameState.currentSponsorQuestion;
-  const showSponsorWordBanner = gameState.pendingSponsorWord && !gameState.isPaused;
+  // const showSponsorWordBanner = gameState.pendingSponsorWord && !gameState.isPaused; // Unused
 
   return (
     <div className="game-board-container">

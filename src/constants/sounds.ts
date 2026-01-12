@@ -40,11 +40,12 @@ export const SOUND_MAPPINGS = {
   GAME_OVER: 'game_over' as SoundEffectName,
 } as const;
 
+import soundService from '../services/SoundService';
+
 /**
  * Helper function to play sound for an activity
  */
 export const playSoundForActivity = (activity: keyof typeof SOUND_MAPPINGS): void => {
-  const soundService = require('../services/SoundService').default;
   const soundName = SOUND_MAPPINGS[activity];
   soundService.play(soundName);
 };

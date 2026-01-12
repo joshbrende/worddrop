@@ -61,8 +61,8 @@ export interface ScoreSubmissionResponse {
 class GameApiService {
   private wordOfTheDayCache: WordOfTheDay | null = null;
   private wordOfTheDayCacheExpiry: number = 0;
-  private sponsorQuestionsCache: SponsorQuestion[] = [];
-  private sponsorQuestionsCacheExpiry: number = 0;
+  // private sponsorQuestionsCache: SponsorQuestion[] = []; // Unused
+  // private sponsorQuestionsCacheExpiry: number = 0; // Unused
   private sessionToken: string | null = null;
   private gameSessionId: string | null = null;
 
@@ -280,8 +280,8 @@ class GameApiService {
   clearCache(): void {
     this.wordOfTheDayCache = null;
     this.wordOfTheDayCacheExpiry = 0;
-    this.sponsorQuestionsCache = [];
-    this.sponsorQuestionsCacheExpiry = 0;
+    // this.sponsorQuestionsCache = [];
+    // this.sponsorQuestionsCacheExpiry = 0;
   }
 }
 

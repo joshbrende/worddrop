@@ -104,7 +104,7 @@ export class GameEngine {
   private foundSponsorWord: boolean = false;
   private pendingSponsorWord: string | null = null; // Word to find after answering trivia correctly
   private sponsorTriviaAnswered: boolean = false; // Track if sponsor trivia was answered correctly
-  private sponsorQuestionsQueue: SponsorQuestion[] = [];
+  // private sponsorQuestionsQueue: SponsorQuestion[] = []; // Unused
   private achievements: string[] = []; // Achievements unlocked during this game
   private maxCombo: number = 0; // Maximum combo reached during this game // Queue of sponsor questions to show
   private gameStartTime: number = Date.now();
@@ -122,7 +122,7 @@ export class GameEngine {
     this.powerUpSystem = new PowerUpSystem();
     this.letterGenerator = getLetterGenerator();
     this.gameStartTime = Date.now();
-    
+
     // Dictionary should already be initialized by App component
     // Just verify it's loaded (won't re-initialize if already loading/loaded)
     if (!dictionaryService.isLoaded()) {
@@ -130,13 +130,13 @@ export class GameEngine {
         debugError('Dictionary not yet loaded in GameEngine:', error);
       });
     }
-    
+
     // Load game modes data (async, don't wait)
     this.loadGameModesData();
-    
+
     // Create game session (async, don't wait)
     this.createGameSession();
-    
+
     // Spawn the first falling letter and preview letter to start the game
     this.spawnNextLetter(); // Spawn preview letter first
     if (this.nextLetter) {
@@ -149,7 +149,7 @@ export class GameEngine {
     }
     this.lastWordTime = Date.now();
     this.lastDropTime = 0; // Reset drop timer for first letter
-    
+
     // Notify initial state so UI updates immediately
     this.notifyStateChange();
   }
@@ -225,8 +225,8 @@ export class GameEngine {
     }
 
     const newPosition: Position = {
-      x: direction === 'left' 
-        ? this.currentLetter.position.x - 1 
+      x: direction === 'left'
+        ? this.currentLetter.position.x - 1
         : this.currentLetter.position.x + 1,
       y: this.currentLetter.position.y,
     };
@@ -430,13 +430,13 @@ export class GameEngine {
   private continueCascading(): void {
     // Wait for any existing removal to complete
     if (this.removalTimeoutId !== null) {
-        debugLog('⏸️ Cascading paused - removal already in progress');
+      debugLog('⏸️ Cascading paused - removal already in progress');
       return; // Already processing words
     }
 
     // Prevent infinite cascading loops
     if (this.cascadeDepth >= this.maxCascadeDepth) {
-        debugError(`Maximum cascade depth (${this.maxCascadeDepth}) reached! Stopping cascading to prevent infinite loop.`);
+      debugError(`Maximum cascade depth (${this.maxCascadeDepth}) reached! Stopping cascading to prevent infinite loop.`);
       this.cascadeDepth = 0; // Reset for next round
       // Spawn new letter if needed after cascading completes
       this.spawnNewLetterAfterCascade();
@@ -448,12 +448,12 @@ export class GameEngine {
     // When cascading, we check the entire board because gravity may have moved letters
     this.cascadeDepth++;
     debugLog(`🔄 Checking for cascading words after gravity... (depth: ${this.cascadeDepth}/${this.maxCascadeDepth})`);
-    
+
     // For cascading, check entire board (gravity may have moved letters anywhere)
     const board = this.board.getCells();
     const detectedWords = this.wordDetector.detectWords(board);
     const foundWords = detectedWords.length > 0 ? this.processDetectedWords(detectedWords) : false;
-    
+
     // If no words found, we're done cascading
     if (!foundWords) {
       debugLog(`✅ Cascading complete - no more words found (depth: ${this.cascadeDepth})`);
@@ -509,7 +509,7 @@ export class GameEngine {
 
     // Reset drop timer for new letter
     this.lastDropTime = 0;
-    
+
     debugLog('🔄 Game continues - new letter spawned after bomb explosion/cascade');
   }
 
@@ -527,11 +527,11 @@ export class GameEngine {
     }
 
     const board = this.board.getCells();
-    
+
     // CRITICAL: Check ONLY the row and column where the letter landed
     // This matches the example behavior exactly
     debugLog(`🔍 Checking for words at row ${row}, col ${col} where letter landed`);
-    
+
     // Detect words ONLY in the specific row and column where letter landed (like example)
     const detectedWords = this.wordDetector.detectWordsAt(board, row, col);
 
@@ -585,12 +585,12 @@ export class GameEngine {
           markedCount++;
         }
       }
-      
+
       if (markedCount === 0) {
         debugWarn(`⚠️ Word "${word.text}" had no cells to mark for removal`);
         continue;
       }
-      
+
       debugLog(`✅ Marked ${markedCount} cell(s) for removal for word "${word.text}"`);
 
       // Detect special word type (word of day, sponsor trivia)
@@ -606,20 +606,20 @@ export class GameEngine {
       });
 
       debugLog(`💰 Score for "${word.text}": ${scoreCalc.finalScore} (base: ${scoreCalc.baseScore}, letter: ${scoreCalc.letterScore}, length: ${scoreCalc.lengthBonus}, multiplier: ${scoreCalc.multiplier.toFixed(2)}x)`);
-      
+
       wordsToProcess.push({ word, score: scoreCalc.finalScore });
-      
+
       // Calculate popup position at the center of the word
-      const centerCol = word.orientation === 'horizontal' 
+      const centerCol = word.orientation === 'horizontal'
         ? word.startPosition.x + Math.floor(word.positions.length / 2)
         : word.startPosition.x;
       const centerRow = word.orientation === 'vertical'
         ? word.startPosition.y + Math.floor(word.positions.length / 2)
         : word.startPosition.y;
-      
+
       // Add score popup (position will be converted to pixels in GameBoard)
       this.addScorePopup(scoreCalc.finalScore, centerCol, centerRow, this.comboCount, word.text);
-      
+
       // Track word
       this.wordsBeingRemoved.add(wordKey);
       this.wordsFound.push(word.text);
@@ -672,7 +672,7 @@ export class GameEngine {
 
     // Calculate total score for this round
     let roundScore = wordsToProcess.reduce((sum, { score }) => sum + score, 0);
-    
+
     debugLog(`📊 Round score calculation: ${wordsToProcess.length} word(s) = ${roundScore} points`);
 
     // Add milestone bonus if reached
@@ -685,14 +685,14 @@ export class GameEngine {
     // Update score and check level up
     const previousScore = this.score;
     this.score += roundScore;
-    
+
     debugLog(`💵 Score update: ${previousScore} + ${roundScore} = ${this.score}`);
-    
+
     // Verify score was actually updated
     if (this.score === previousScore && roundScore > 0) {
       debugError(`❌ ERROR: Score was not updated! Previous: ${previousScore}, Round: ${roundScore}, Current: ${this.score}`);
     }
-    
+
     this.checkLevelUp();
 
     // Notify state change immediately so UI shows removing animation AND score update
@@ -706,29 +706,29 @@ export class GameEngine {
       clearTimeout(this.removalTimeoutId);
       this.removalTimeoutId = null;
     }
-    
+
     debugLog(`⏱️ Setting removal timeout (${wordsToProcess.length} word(s) to remove)...`);
-    
+
     // Set timeout to clear words after animation
     this.removalTimeoutId = window.setTimeout(() => {
       debugLog('⏰ Removal timeout fired - clearing words...');
-      
+
       // Clear the timeout ID immediately so game loop can resume
       this.removalTimeoutId = null;
-      
+
       try {
         // Clear removing words first - this sets cells to empty
         this.clearRemovingWords();
-        
+
         // Get fresh board state AFTER clearing
         const boardCells = this.board.getCells();
-        
+
         // Debug: Check board state before gravity
         const emptyBefore = boardCells.flat().filter(c => c && c.isEmpty && !c.letter).length;
         const lettersBefore = boardCells.flat().filter(c => c && !c.isEmpty && c.letter).length;
         const removingBefore = boardCells.flat().filter(c => c && c.isRemoving).length;
         debugLog(`📊 Before gravity: ${emptyBefore} empty, ${lettersBefore} letters, ${removingBefore} still removing`);
-        
+
         if (removingBefore > 0) {
           debugWarn(`⚠️ WARNING: ${removingBefore} cells still marked as removing after clearRemovingWords()!`);
           // Force clear any remaining removing cells
@@ -746,26 +746,26 @@ export class GameEngine {
             }
           }
         }
-        
+
         // Apply gravity to make letters fall into empty spaces
         const gravityMoved = this.gravity.applyUntilStable(boardCells);
-        
+
         // Debug: Check board state after gravity
         const emptyAfter = boardCells.flat().filter(c => c && c.isEmpty && !c.letter).length;
         const lettersAfter = boardCells.flat().filter(c => c && !c.isEmpty && c.letter).length;
         debugLog(`📊 After gravity: ${emptyAfter} empty, ${lettersAfter} letters (${gravityMoved ? 'gravity applied' : 'no movement'})`);
-        
+
         // Update board with gravity-applied state
         this.updateBoardFromCells(boardCells);
-        
+
         // Reset removing words set
         this.wordsBeingRemoved.clear();
-        
+
         // Notify state change after gravity has been applied
         this.notifyStateChange();
-        
+
         debugLog('✅ Word removal complete - checking for cascading words...');
-        
+
         // Check for cascading words after gravity
         // Use a small delay to allow state to update and React to re-render
         // Use requestAnimationFrame to ensure state is fully updated before checking again
@@ -781,18 +781,18 @@ export class GameEngine {
         this.wordsBeingRemoved.clear();
         this.removalTimeoutId = null;
         this.cascadeDepth = 0; // Reset cascade depth on error
-        
+
         // Force clear any cells that might be stuck in removing state
         try {
           this.clearRemovingWords();
         } catch (clearError) {
           debugError('❌ Error clearing words in error handler:', clearError);
         }
-        
+
         this.notifyStateChange();
       }
     }, ANIMATION_DURATIONS.WORD_REMOVAL); // Matches CSS animation duration
-    
+
     debugLog(`✅ Removal timeout set (ID: ${this.removalTimeoutId})`);
 
     return wordsToProcess.length > 0;
@@ -805,17 +805,17 @@ export class GameEngine {
   private clearRemovingWords(): void {
     let clearedCount = 0;
     const clearedPositions: Position[] = [];
-    
+
     // Iterate directly over board positions to ensure we check actual board state
     for (let y = 0; y < BOARD_CONFIG.HEIGHT; y++) {
       for (let x = 0; x < BOARD_CONFIG.WIDTH; x++) {
         const position = { x, y };
         const cell = this.board.getCell(position);
-        
+
         // Clear all cells marked for removal
         if (cell && cell.isRemoving) {
           const hadLetter = cell.letter !== null;
-          
+
           // Clear the letter but keep the cell structure intact
           // The cell should remain visible as an empty cell
           this.board.setCell(position, {
@@ -825,7 +825,7 @@ export class GameEngine {
             isFrozen: false, // Reset frozen state
             isBomb: false, // Reset bomb state if it was a bomb
           });
-          
+
           if (hadLetter) {
             clearedCount++;
             clearedPositions.push(position);
@@ -833,11 +833,11 @@ export class GameEngine {
         }
       }
     }
-    
+
     if (clearedCount > 0) {
-      debugLog(`✅ Cleared ${clearedCount} cell(s) marked for removal:`, 
+      debugLog(`✅ Cleared ${clearedCount} cell(s) marked for removal:`,
         clearedPositions.map(p => `(${p.x},${p.y})`).join(', '));
-      
+
       // Verify clearing worked
       for (const pos of clearedPositions) {
         const cellAfter = this.board.getCell(pos);
@@ -847,7 +847,7 @@ export class GameEngine {
       }
     } else {
       debugWarn('⚠️ No cells marked for removal found when trying to clear');
-      
+
       // Debug: Check if any cells have isRemoving flag
       const removingCells = [];
       for (let y = 0; y < BOARD_CONFIG.HEIGHT; y++) {
@@ -862,7 +862,7 @@ export class GameEngine {
         debugWarn(`⚠️ Found ${removingCells.length} cells with isRemoving flag but not cleared:`, removingCells);
       }
     }
-    
+
     // Don't notify state change here - will notify after gravity is applied
   }
 
@@ -877,7 +877,7 @@ export class GameEngine {
     }
 
     const threshold = LEVEL_CONFIG.POINTS_THRESHOLDS[nextLevel as keyof typeof LEVEL_CONFIG.POINTS_THRESHOLDS];
-    
+
     if (this.score >= threshold && !this.isLevelingUp) {
       // Trigger level-up sequence
       this.triggerLevelUp(nextLevel);
@@ -889,35 +889,35 @@ export class GameEngine {
    */
   private triggerLevelUp(newLevel: number): void {
     debugLog(`🚀 Level Up! Reached Level ${newLevel}`);
-    
+
     // Store level-up info for UI
     this.isLevelingUp = true;
     const themeId = LEVEL_CONFIG.LEVEL_THEMES[newLevel as keyof typeof LEVEL_CONFIG.LEVEL_THEMES] || 'neon-blue';
-    
+
     this.levelUpData = {
       newLevel,
       points: this.score,
       themeId,
     };
-    
+
     // Update level
     this.level = newLevel;
-    
+
     // Update drop speed (INCREASE SPEED = DECREASE INTERVAL)
     // Letters fall faster at higher levels
     this.dropInterval = Math.max(
       DROP_CONFIG.BASE_INTERVAL - ((this.level - 1) * DROP_CONFIG.SPEED_INCREASE_PER_LEVEL),
       DROP_CONFIG.MIN_INTERVAL
     );
-    
+
     debugLog(`🚀 Drop speed updated: ${this.dropInterval}ms (${((DROP_CONFIG.BASE_INTERVAL - this.dropInterval) / 10).toFixed(0)}% faster)`);
-    
+
     // Clear board completely
     this.clearBoard();
-    
+
     // Pause the game during level-up banner
     this.isPaused = true;
-    
+
     // Notify UI
     this.notifyStateChange();
   }
@@ -932,14 +932,14 @@ export class GameEngine {
     }
 
     debugLog(`✅ Level-up sequence complete, resuming game at Level ${this.level}`);
-    
+
     // Reset level-up state
     this.isLevelingUp = false;
     this.levelUpData = null;
-    
+
     // Resume game
     this.isPaused = false;
-    
+
     // Spawn a new letter to continue gameplay
     // If no current letter, spawn one
     if (!this.currentLetter) {
@@ -950,7 +950,7 @@ export class GameEngine {
         this.spawnNextLetter();
       }
     }
-    
+
     // Notify state change
     this.notifyStateChange();
   }
@@ -960,7 +960,7 @@ export class GameEngine {
    */
   private clearBoard(): void {
     debugLog('🧹 Clearing board for level-up...');
-    
+
     for (let y = 0; y < BOARD_CONFIG.HEIGHT; y++) {
       for (let x = 0; x < BOARD_CONFIG.WIDTH; x++) {
         this.board.setCell({ x, y }, {
@@ -972,18 +972,18 @@ export class GameEngine {
         });
       }
     }
-    
+
     // Clear current and next letters
     this.currentLetter = null;
     this.nextLetter = null;
-    
+
     // Clear any pending removal operations
     this.wordsBeingRemoved.clear();
     if (this.removalTimeoutId !== null) {
       clearTimeout(this.removalTimeoutId);
       this.removalTimeoutId = null;
     }
-    
+
     debugLog('✅ Board cleared successfully');
   }
 
@@ -1057,7 +1057,7 @@ export class GameEngine {
       clearTimeout(this.removalTimeoutId);
       this.removalTimeoutId = null;
     }
-    
+
     this.board = new Board();
     this.currentLetter = null;
     this.nextLetter = null;
@@ -1088,7 +1088,7 @@ export class GameEngine {
     this.levelUpData = null;
     this.powerUpSystem.reset(); // Reset power-ups
     this.letterGenerator.reset(); // Reset letter generator
-    
+
     // Reset game modes state
     this.wordOfTheDay = null;
     this.currentSponsorQuestion = null;
@@ -1097,7 +1097,7 @@ export class GameEngine {
     this.foundSponsorWord = false;
     this.pendingSponsorWord = null;
     this.sponsorTriviaAnswered = false;
-    
+
     // Spawn first letter and its preview
     this.spawnNextLetter();
     if (this.nextLetter) {
@@ -1105,10 +1105,10 @@ export class GameEngine {
       this.nextLetter = null;
       this.spawnNextLetter(); // Generate preview letter
     }
-    
+
     // Reload game modes data
     this.loadGameModesData();
-    
+
     this.notifyStateChange();
   }
 
@@ -1215,7 +1215,7 @@ export class GameEngine {
     // Apply power-up effect based on type FIRST (before consuming)
     // For blank power-up, we need to validate the letter before consuming
     let success = false;
-    
+
     switch (type) {
       case 'bomb':
         success = this.applyBombPowerUp();
@@ -1280,7 +1280,7 @@ export class GameEngine {
     // Mark current letter as bomb
     this.currentLetter.isBomb = true;
     debugLog(`💣 Bomb power-up applied to current letter at (${this.currentLetter.position.x}, ${this.currentLetter.position.y})`);
-    
+
     this.notifyStateChange();
     return true;
   }
@@ -1518,7 +1518,7 @@ export class GameEngine {
     // Apply gravity - pass board cells, not Board object
     const boardCells = this.board.getCells();
     const moved = this.gravity.applyUntilStable(boardCells);
-    
+
     // Update board with gravity result
     if (moved) {
       // Copy the modified cells back to the board
@@ -1534,7 +1534,7 @@ export class GameEngine {
     // Check for cascading words (words formed by gravity)
     // Reset cascade depth before checking (bomb/word processing is a new cascade chain)
     this.cascadeDepth = 0;
-    
+
     // Use requestAnimationFrame to ensure state is fully updated before checking
     requestAnimationFrame(() => {
       setTimeout(() => {
@@ -1584,7 +1584,7 @@ export class GameEngine {
         markedCount++;
       }
     }
-    
+
     if (markedCount === 0) {
       debugWarn('⚠️ Bomb explosion: no cells marked for removal - bomb may have already been cleared');
       // Even if no cells to clear, still spawn new letter to continue game
@@ -1592,7 +1592,7 @@ export class GameEngine {
       this.notifyStateChange();
       return;
     }
-    
+
     debugLog(`💣 Bomb explosion: marked ${markedCount} cell(s) for removal`);
     soundService.play(SOUND_MAPPINGS.BOMB);
 
@@ -1694,7 +1694,7 @@ export class GameEngine {
    */
   private checkForSponsorQuestion(): void {
     const now = Date.now();
-    
+
     // Don't show if:
     // - Already showing a question
     // - Already answered and waiting for word
@@ -1742,17 +1742,17 @@ export class GameEngine {
 
     this.foundWordOfTheDay = true;
     debugLog(`🎉 Word of the Day found: ${word}! Score: ${score}`);
-    
+
     // Play celebration sound
     soundService.play(SOUND_MAPPINGS.LEVEL_UP || SOUND_MAPPINGS.WORD_FORMED);
-    
+
     // Award achievement
     this.awardAchievement('word_of_day_completed', {
       word: word,
       date: new Date().toISOString().split('T')[0],
       score: score,
     });
-    
+
     // Show celebration (will be handled by UI component)
     this.notifyStateChange();
   }
@@ -1762,12 +1762,12 @@ export class GameEngine {
    */
   private awardAchievement(achievementType: string, metadata?: Record<string, unknown>): void {
     debugLog(`🏆 Achievement unlocked: ${achievementType}`, metadata);
-    
+
     // Track achievement in state
     if (!this.achievements.includes(achievementType)) {
       this.achievements.push(achievementType);
     }
-    
+
     // TODO: Send achievement to backend API
     // This can be implemented when backend achievement system is ready
     // For now, just log it
@@ -1785,28 +1785,28 @@ export class GameEngine {
   private handleSponsorWordFound(word: string, score: number): void {
     if (this.pendingSponsorWord && word.toUpperCase().trim() === this.pendingSponsorWord.toUpperCase().trim()) {
       debugLog(`🎯 Sponsor word found: ${word}! Score: ${score}`);
-      
+
       // Clear pending word FIRST so banner disappears immediately
       const wordToClear = this.pendingSponsorWord;
       this.pendingSponsorWord = null;
       this.foundSponsorWord = true;
       this.isPaused = false; // Resume game
-      
+
       debugLog(`✅ Clearing pending sponsor word: ${wordToClear}, new value: ${this.pendingSponsorWord}`);
-      
+
       // Play celebration sound
       soundService.play(SOUND_MAPPINGS.LEVEL_UP || SOUND_MAPPINGS.WORD_FORMED);
-      
+
       // Award achievement
       this.awardAchievement('sponsor_trivia_completed', {
         word: word,
         question_id: this.currentSponsorQuestion?.id,
         score: score,
       });
-      
+
       // Clear question after getting the ID
       this.currentSponsorQuestion = null;
-      
+
       // Force state update immediately - call multiple times to ensure it propagates
       this.notifyStateChange();
       // Also force another update after a tiny delay to ensure React picks it up
@@ -1823,7 +1823,7 @@ export class GameEngine {
   handleTriviaAnswer(isCorrect: boolean, selectedAnswer?: string): void {
     this.showTriviaModal = false;
     this.sponsorTriviaAnswered = isCorrect;
-    
+
     if (isCorrect && selectedAnswer) {
       // Use the selected answer as the word to find (not the question's answer field)
       this.pendingSponsorWord = selectedAnswer.toUpperCase().trim();
@@ -1835,13 +1835,14 @@ export class GameEngine {
       this.isPaused = false;
       this.currentSponsorQuestion = null;
     }
-    
+
     this.notifyStateChange();
   }
 
   /**
    * Load next sponsor question
    */
+  /*
   private async loadNextSponsorQuestion(): Promise<void> {
     try {
       const sponsorQuestion = await gameApiService.getSponsorQuestion(this.level, this.comboCount);
@@ -1854,6 +1855,7 @@ export class GameEngine {
       debugError('Failed to load next sponsor question:', error);
     }
   }
+  */
 
   /**
    * Submit score to backend
@@ -1878,11 +1880,11 @@ export class GameEngine {
         }
       }
 
-      const wordType = specialWordType === 'word-of-day' 
-        ? 'word_of_day' 
-        : specialWordType === 'sponsor-trivia' 
-        ? 'sponsor_trivia' 
-        : 'normal';
+      const wordType = specialWordType === 'word-of-day'
+        ? 'word_of_day'
+        : specialWordType === 'sponsor-trivia'
+          ? 'sponsor_trivia'
+          : 'normal';
 
       await gameApiService.submitScore({
         game_session_id: gameApiService.getGameSessionId()!,

@@ -5,7 +5,7 @@
  */
 
 import React, { useEffect, useState, useRef } from 'react';
-import soundService from '../services/SoundService';
+// import soundService from '../services/SoundService'; // Unused
 import './SplashScreen.css';
 
 interface SplashScreenProps {
@@ -14,10 +14,10 @@ interface SplashScreenProps {
   loadingMessage?: string;
 }
 
-export const SplashScreen: React.FC<SplashScreenProps> = ({ 
-  onComplete, 
+export const SplashScreen: React.FC<SplashScreenProps> = ({
+  onComplete,
   loadingProgress,
-  loadingMessage = 'INITIALIZING SYSTEM' 
+  loadingMessage = 'INITIALIZING SYSTEM'
 }) => {
   // Visual progress that animates smoothly towards loadingProgress
   const [progress, setProgress] = useState(0);
@@ -60,9 +60,9 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
     // Only transition when loadingProgress is 100% and transition hasn't started
     if (loadingProgress >= 100 && !transitionStartedRef.current) {
       console.log(`[SplashScreen] Progress at 100% - starting transition to menu...`);
-      
+
       transitionStartedRef.current = true; // Mark as started to prevent re-runs
-      
+
       // Wait for CSS transition to complete (progress bar animation) + show completion state
       // Total delay: 1000ms to allow visual progress bar to reach 100% and stay there briefly
       const timer = window.setTimeout(() => {
@@ -89,9 +89,9 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
       <div className="splash-container">
         {/* Logo */}
         <div className="splash-logo-container">
-          <img 
-            src="/assets/logo.png" 
-            alt="WordDROP Logo" 
+          <img
+            src="/assets/logo.png"
+            alt="WordDROP Logo"
             className="splash-logo"
           />
         </div>
@@ -99,7 +99,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({
         {/* Loading Bar */}
         <div className="splash-loading-bar-container">
           <div className="splash-loading-bar">
-            <div 
+            <div
               className="splash-loading-bar-fill"
               style={{ width: `${progress}%` }}
             />

@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { getThemeByLevel, type ThemeOption } from '../constants/themes';
+import { getThemeByLevel } from '../constants/themes';
 import { getLevelEffectConfig, getAchievementBadge } from '../utils/levelEffects';
 import { applyThemeToDocument } from '../constants/themes';
 import soundService from '../services/SoundService';
@@ -21,7 +21,7 @@ interface LevelUpBannerProps {
 export const LevelUpBanner: React.FC<LevelUpBannerProps> = ({
   level,
   points,
-  themeId,
+  // themeId, // Unused
   onComplete,
 }) => {
   const [isVisible, setIsVisible] = useState(true);
@@ -32,7 +32,7 @@ export const LevelUpBanner: React.FC<LevelUpBannerProps> = ({
   // Apply theme colors to document when banner appears
   useEffect(() => {
     applyThemeToDocument(theme.colors);
-    
+
     // Play level-up sound
     soundService.play(SOUND_MAPPINGS.LEVEL_UP);
   }, [theme]);
@@ -59,7 +59,7 @@ export const LevelUpBanner: React.FC<LevelUpBannerProps> = ({
   if (!isVisible) return null;
 
   return (
-    <div 
+    <div
       className={`level-up-overlay level-up-${level}`}
       style={{
         '--theme-primary': theme.colors.primary,
@@ -69,7 +69,7 @@ export const LevelUpBanner: React.FC<LevelUpBannerProps> = ({
       } as React.CSSProperties}
     >
       {/* Screen Effect Overlay */}
-      <div 
+      <div
         className={`screen-effect screen-effect-${effectConfig.screenEffect}`}
         style={{
           backgroundColor: theme.colors.primary,
