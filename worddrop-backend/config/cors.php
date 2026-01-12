@@ -20,13 +20,7 @@ return [
     'allowed_methods' => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 
     'allowed_origins' => [
-        'http://localhost:8000',
-        'http://localhost:5173',
-        'http://localhost:3000',
-        'http://192.168.0.153:8000',
-        'http://192.168.0.153:5173',
-        'http://192.168.0.153:3000',
-        'https://worddrop.live',
+        '*', // Allow all origins for Vercel deployment (preview & prod)
     ],
 
     'allowed_origins_patterns' => [],
