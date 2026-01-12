@@ -19,7 +19,7 @@ export class PowerUpSystem {
    */
   private initializePowerUps(): void {
     const powerUpTypes: PowerUpType[] = ['bomb', 'lightning', 'freeze', 'wind', 'blank'];
-    
+
     for (const type of powerUpTypes) {
       this.powerUps.set(type, {
         type,
@@ -38,13 +38,13 @@ export class PowerUpSystem {
     const result = orderedTypes
       .map(type => this.powerUps.get(type))
       .filter((pu): pu is PowerUp => pu !== undefined);
-    
+
     // Debug log to verify all power-ups are returned
     if (result.length !== 5) {
       console.error('[PowerUpSystem] ❌ Expected 5 power-ups, got', result.length, 'Types:', result.map(p => p.type));
       console.error('[PowerUpSystem] Map keys:', Array.from(this.powerUps.keys()));
     }
-    
+
     return result;
   }
 
@@ -110,6 +110,30 @@ export class PowerUpSystem {
    */
   getLabel(type: PowerUpType): string {
     return POWER_UP_LABELS[type];
+  }
+
+  /**
+   * Get current state for persistence
+   */
+  getState(): PowerUp[] {
+    return this.getAllPowerUps();
+  }
+
+  /**
+   * Restore state from persistence
+   */
+  restoreState(savedPowerUps: PowerUp[]): void {
+    if (!Array.isArray(savedPowerUps)) return;
+
+    for (const saved of savedPowerUps) {
+      const existing = this.powerUps.get(saved.type);
+      if (existing) {
+        existing.uses = saved.uses;
+        existing.isAvailable = saved.isAvailable;
+        // Ensure type matches just in case
+        existing.type = saved.type;
+      }
+    }
   }
 
   /**

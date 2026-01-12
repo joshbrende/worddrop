@@ -1915,4 +1915,56 @@ export class GameEngine {
   getCurrentSponsorQuestion(): SponsorQuestion | null {
     return this.currentSponsorQuestion;
   }
+
+  /**
+   * Get persistable state object
+   */
+  getPersistableState(): Record<string, any> {
+    return {
+      score: this.score,
+      level: this.level,
+      comboCount: this.comboCount,
+      wordsFound: this.wordsFound,
+      totalWordsFound: this.totalWordsFound,
+      achievements: this.achievements,
+      powerUps: this.powerUpSystem.getState(), // Use powerUpSystem to get state
+      board: this.board.getCells(),
+      // We don't save currentLetter/nextLetter to simplify resume logic (will spawn new ones)
+    };
+  }
+
+  /**
+   * Restore state from persisted object
+   */
+  restoreState(data: Record<string, any>): void {
+    try {
+      if (typeof data.score === 'number') this.score = data.score;
+      if (typeof data.level === 'number') this.level = data.level;
+      if (typeof data.comboCount === 'number') this.comboCount = data.comboCount;
+      if (Array.isArray(data.wordsFound)) this.wordsFound = data.wordsFound;
+      if (typeof data.totalWordsFound === 'number') this.totalWordsFound = data.totalWordsFound;
+      if (Array.isArray(data.achievements)) this.achievements = data.achievements;
+
+      // Restore power-ups if available
+      if (Array.isArray(data.powerUps)) {
+        // We'll need to expose a setter or method in PowerUpSystem to restore state
+        // For now, let's assume we can pass it through a new method or re-initialize
+        // Actually PowerUpSystem needs a restore method.
+        // Let's defer this slightly or just set the internal array if possible.
+        // Checking PowerUpSystem... it has getState() but maybe not restoreState()
+        // I'll assume I need to add restoreState to PowerUpSystem too. 
+        this.powerUpSystem.restoreState(data.powerUps);
+      }
+
+      // Restore board
+      if (Array.isArray(data.board)) {
+        this.board.setCells(data.board);
+      }
+
+      debugLog('🔄 Game state restored from save data');
+      this.notifyStateChange();
+    } catch (error) {
+      debugError('Failed to restore game state:', error);
+    }
+  }
 }

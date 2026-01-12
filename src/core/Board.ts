@@ -51,14 +51,14 @@ export class Board {
     if (!this.isValidPosition(position)) {
       return;
     }
-    
+
     // Merge with existing cell properties
     const existingCell = this.cells[position.y][position.x];
     const mergedCell = {
       ...existingCell,
       ...cell,
     };
-    
+
     // Determine isEmpty based on letter value
     // If letter is explicitly set (even if null), use it to determine isEmpty
     if ('letter' in cell && cell.letter !== undefined) {
@@ -70,7 +70,7 @@ export class Board {
       // Fallback: determine from merged letter value
       mergedCell.isEmpty = (mergedCell.letter === null || mergedCell.letter === undefined);
     }
-    
+
     this.cells[position.y][position.x] = mergedCell as Cell;
   }
 
@@ -133,6 +133,18 @@ export class Board {
    */
   reset(): void {
     this.cells = this.createEmptyBoard();
+  }
+
+  /**
+   * Set all cells (for restoring state)
+   */
+  setCells(newCells: Cell[][]): void {
+    if (newCells.length !== BOARD_CONFIG.HEIGHT || newCells[0].length !== BOARD_CONFIG.WIDTH) {
+      console.error('Invalid board dimensions for restore');
+      return;
+    }
+    // Deep copy to ensure independence
+    this.cells = newCells.map(row => row.map(cell => ({ ...cell })));
   }
 
   /**

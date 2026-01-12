@@ -22,6 +22,12 @@ interface CrazyGamesSDK {
       ) => void;
       hasAdblock: () => Promise<boolean>;
     };
+    data: {
+      setItem: (key: string, value: any) => Promise<void>;
+      getItem: (key: string) => Promise<any>;
+      removeItem: (key: string) => Promise<void>;
+      clear: () => Promise<void>;
+    };
   };
 }
 
@@ -81,11 +87,11 @@ export class CrazyGamesService {
       await window.CrazyGames!.SDK.init();
       this.isInitialized = true;
       console.log('[CrazyGames] SDK Initialized');
-      
+
       // Check adblock after initialization
       this.hasAdblock = await window.CrazyGames!.SDK.ad.hasAdblock();
       console.log('[CrazyGames] Adblock detected:', this.hasAdblock);
-      
+
     } catch (error) {
       console.error('[CrazyGames] Failed to initialize SDK:', error);
     }
@@ -186,8 +192,8 @@ export class CrazyGamesService {
         console.log('[CrazyGames] Midgame Ad started');
       },
       adError: (error: { code: string; message: string }) => {
-         console.warn('[CrazyGames] Midgame Ad error:', error);
-         onFinished();
+        console.warn('[CrazyGames] Midgame Ad error:', error);
+        onFinished();
       },
       adFinished: () => {
         console.log('[CrazyGames] Midgame Ad finished');
@@ -196,10 +202,56 @@ export class CrazyGamesService {
     };
 
     try {
-       window.CrazyGames!.SDK.ad.requestAd('midgame', callbacks);
+      window.CrazyGames!.SDK.ad.requestAd('midgame', callbacks);
     } catch (error) {
-       console.error('[CrazyGames] Failed to request midgame ad:', error);
-       onFinished();
+      console.error('[CrazyGames] Failed to request midgame ad:', error);
+      onFinished();
+    }
+  }
+
+  /**
+   * Save data to CrazyGames cloud storage (with localStorage fallback)
+   */
+  async saveData(key: string, value: any): Promise<void> {
+    try {
+      if (this.isInitialized && window.CrazyGames?.SDK?.data) {
+        await window.CrazyGames.SDK.data.setItem(key, JSON.stringify(value));
+        console.log(`[CrazyGames] Saved data for key: ${key}`);
+      } else {
+        // Fallback to localStorage
+        localStorage.setItem(key, JSON.stringify(value));
+        console.log(`[CrazyGames] Saved data to localStorage for key: ${key}`);
+      }
+    } catch (error) {
+      console.error(`[CrazyGames] Failed to save data for key: ${key}`, error);
+    }
+  }
+
+  /**
+   * Load data from CrazyGames cloud storage (with localStorage fallback)
+   */
+  async loadData(key: string): Promise<any | null> {
+    try {
+      let data = null;
+
+      if (this.isInitialized && window.CrazyGames?.SDK?.data) {
+        const result = await window.CrazyGames.SDK.data.getItem(key);
+        if (result) {
+          data = JSON.parse(result);
+          console.log(`[CrazyGames] Loaded data for key: ${key}`);
+        }
+      } else {
+        // Fallback to localStorage
+        const result = localStorage.getItem(key);
+        if (result) {
+          data = JSON.parse(result);
+          console.log(`[CrazyGames] Loaded data from localStorage for key: ${key}`);
+        }
+      }
+      return data;
+    } catch (error) {
+      console.error(`[CrazyGames] Failed to load data for key: ${key}`, error);
+      return null;
     }
   }
 
@@ -220,7 +272,7 @@ export class CrazyGamesService {
 
 // Helper for debug logging if needed (shim since we removed imports)
 function debugWarn(msg: string) {
-    console.warn('[CrazyGamesService]', msg);
+  console.warn('[CrazyGamesService]', msg);
 }
 
 // Export singleton instance
