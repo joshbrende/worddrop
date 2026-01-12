@@ -75,6 +75,29 @@ export const GameBoard: React.FC<GameBoardProps> = ({ gameMode = 'normal', onRet
   // Canvas animation hook
   const canvasRef = useCanvasAnimation();
 
+  // Handle controls for repeat action (hold down)
+  const controlIntervalRef = React.useRef<number | null>(null);
+
+  const handleControlStart = (action: () => void, intervalMs: number = 200) => {
+    // Execute immediately
+    action();
+
+    // Clear any existing interval
+    if (controlIntervalRef.current) {
+      clearInterval(controlIntervalRef.current);
+    }
+
+    // Start repeat interval
+    controlIntervalRef.current = window.setInterval(action, intervalMs);
+  };
+
+  const handleControlEnd = () => {
+    if (controlIntervalRef.current) {
+      clearInterval(controlIntervalRef.current);
+      controlIntervalRef.current = null;
+    }
+  };
+
   // Start in-game music when game board mounts (PLAY button was clicked, so user has interacted)
   useEffect(() => {
     // User clicked PLAY button, so music can play immediately
@@ -145,7 +168,7 @@ export const GameBoard: React.FC<GameBoardProps> = ({ gameMode = 'normal', onRet
       <div id="large-header" className="large-header">
         <canvas ref={canvasRef} className="demo-canvas" />
       </div>
-      
+
       <div className="game-info">
         <div className="score">Score: {gameState.score}</div>
         <div className="level">Level: {gameState.level}</div>
@@ -161,8 +184,8 @@ export const GameBoard: React.FC<GameBoardProps> = ({ gameMode = 'normal', onRet
             <span className="next-letter-value">{gameState.nextLetter.letter}</span>
           </div>
         )}
-        <button 
-          className="pause-button-top" 
+        <button
+          className="pause-button-top"
           onClick={isPaused ? resume : pause}
           title="Pause (Space/ESC)"
         >
@@ -214,16 +237,16 @@ export const GameBoard: React.FC<GameBoardProps> = ({ gameMode = 'normal', onRet
                 const cell = gameState.board[rowIndex][colIndex];
                 const isActive =
                   currentPos?.x === colIndex && currentPos?.y === rowIndex;
-                
+
                 // Show falling letter in active cell - if it's a bomb, hide the letter
                 // GameCell component handles memoization, so object creation here is fine
                 const displayCell = isActive && gameState.currentLetter
                   ? {
-                      ...cell,
-                      letter: gameState.currentLetter.isBomb ? null : gameState.currentLetter.letter,
-                      isEmpty: false, // Always false when active letter is present
-                      isBomb: gameState.currentLetter.isBomb,
-                    }
+                    ...cell,
+                    letter: gameState.currentLetter.isBomb ? null : gameState.currentLetter.letter,
+                    isEmpty: false, // Always false when active letter is present
+                    isBomb: gameState.currentLetter.isBomb,
+                  }
                   : cell;
 
                 return (
@@ -249,28 +272,52 @@ export const GameBoard: React.FC<GameBoardProps> = ({ gameMode = 'normal', onRet
           />
         ))}
 
-        {/* Game Controls - At the bottom of the grid */}
+        {/* Game Controls - At the bottom of the grid - Pointer events for mobile hold support */}
         <div className="game-controls">
-          <button 
-            className="control-button control-button-left" 
-            onClick={moveLeft}
+          <button
+            className="control-button control-button-left"
+            onPointerDown={(e) => {
+              e.preventDefault(); // Prevent text selection/ghost clicks
+              handleControlStart(moveLeft, 150);
+            }}
+            onPointerUp={(e) => {
+              e.preventDefault();
+              handleControlEnd();
+            }}
+            onPointerLeave={handleControlEnd}
             disabled={isPaused || isGameOver}
             title="Move Left (←/A)"
           >
             <span>←</span>
           </button>
-          <button 
-            className="control-button control-button-drop" 
-            onClick={dropLetter}
+          <button
+            className="control-button control-button-drop"
+            onPointerDown={(e) => {
+              e.preventDefault();
+              handleControlStart(dropLetter, 100); // Faster drop
+            }}
+            onPointerUp={(e) => {
+              e.preventDefault();
+              handleControlEnd();
+            }}
+            onPointerLeave={handleControlEnd}
             disabled={isPaused || isGameOver}
             title="Drop (Space)"
           >
             <span>⬇</span>
             <span className="control-label">DROP</span>
           </button>
-          <button 
-            className="control-button control-button-right" 
-            onClick={moveRight}
+          <button
+            className="control-button control-button-right"
+            onPointerDown={(e) => {
+              e.preventDefault();
+              handleControlStart(moveRight, 150);
+            }}
+            onPointerUp={(e) => {
+              e.preventDefault();
+              handleControlEnd();
+            }}
+            onPointerLeave={handleControlEnd}
             disabled={isPaused || isGameOver}
             title="Move Right (→/D)"
           >
