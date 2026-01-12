@@ -8,6 +8,8 @@ interface ModesScreenProps {
   onStartGame: (mode?: 'normal' | 'word-of-day' | 'sponsor-trivia') => void;
 }
 
+import { gameApiService } from '../services/GameApiService';
+
 export const ModesScreen: React.FC<ModesScreenProps> = ({ onBack, onStartGame }) => {
   const [wordOfTheDay, setWordOfTheDay] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -16,13 +18,9 @@ export const ModesScreen: React.FC<ModesScreenProps> = ({ onBack, onStartGame })
     // Load today's word of the day
     const loadWordOfTheDay = async () => {
       try {
-        const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://192.168.0.153:8000/api/v1';
-        const response = await fetch(`${API_BASE_URL}/word-of-day`);
-        if (response.ok) {
-          const data = await response.json();
-          if (data.success && data.data) {
-            setWordOfTheDay(data.data);
-          }
+        const data = await gameApiService.getWordOfTheDay();
+        if (data) {
+          setWordOfTheDay(data);
         }
       } catch (error) {
         console.error('Error loading word of the day:', error);
@@ -61,9 +59,9 @@ export const ModesScreen: React.FC<ModesScreenProps> = ({ onBack, onStartGame })
   return (
     <div className="modes-screen">
       <div className="modes-background">
-        <img 
-          src="/assets/menu_bg.png" 
-          alt="Modes Background" 
+        <img
+          src="/assets/menu_bg.png"
+          alt="Modes Background"
           className="modes-bg-image"
         />
         <div className="modes-overlay" />
@@ -141,8 +139,8 @@ export const ModesScreen: React.FC<ModesScreenProps> = ({ onBack, onStartGame })
                 <span>✓</span> Achievement unlock
               </div>
             </div>
-            <button 
-              className="mode-button mode-button-primary" 
+            <button
+              className="mode-button mode-button-primary"
               onClick={handleStartWordOfDay}
               disabled={!wordOfTheDay}
             >
